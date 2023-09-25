@@ -1,6 +1,6 @@
 
 import { updateAppConfig } from '#app'
-import { defuFn } from 'C:/Users/huylo/OneDrive/Documents/WEB-APK/HTML/node_modules/defu/dist/defu.mjs'
+import { defuFn } from 'C:/Users/huylo/OneDrive/Documents/APK-APP/html/node_modules/defu/dist/defu.mjs'
 
 const inlineConfig = {}
 

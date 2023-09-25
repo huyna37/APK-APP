@@ -4,10 +4,10 @@ api/node_modules/
 # Nuxt dev/build outputs
 /html/output
 /html/data
-/html/nuxt
 /html/nitro
 /html/cache
 /html/dist
+/html/.nuxt
 
 # Node dependencies
 /html/node_modules
