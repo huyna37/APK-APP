@@ -16,7 +16,9 @@ const schema = new mongoose.Schema({
         type: String
     },
     developer: {
-        type: Developer,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Developer,
+        required: true
     },
     currency: {
         type: String
@@ -40,7 +42,9 @@ const schema = new mongoose.Schema({
         type: String,
     },
     permissions: {
-        type: Permission
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Permission,
+        required: true
     },
     similar: {
         type: String

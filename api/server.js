@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const router = require('./lib');
+const appRouter = require('./routes/app.routes');
 const crypto = require('crypto');
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -25,6 +26,7 @@ mongoose
   });
 
 app.use('/api/', router);
+app.use('/app/', appRouter);
 
 
 app.listen(3005, ()=> {
