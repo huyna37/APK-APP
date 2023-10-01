@@ -7,6 +7,10 @@ const schema = new mongoose.Schema({
     type: {
         type: String
     },
+    appId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'App',
+    },
     createAt: {
         type: Date,
         default: Date.now

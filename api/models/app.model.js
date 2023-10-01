@@ -1,72 +1,69 @@
 const { default: mongoose } = require("mongoose");
-const Developer = require('./developer.model')
-const Permission = require('./permission.model')
 
 const schema = new mongoose.Schema({
-    title: {
-        type: String,
+    title: String,
+    description: String,
+    descriptionHTML: String,
+    summary: String,
+    installs: String,
+    minInstalls: Number,
+    maxInstalls: Number,
+    score: Number,
+    scoreText: String,
+    ratings: Number,
+    reviews: Number,
+    histogram: {
+        type: Map,
+        of: Number,
     },
-    appId: {
-        type: String
-    },
-    url: {
-        type: String,
-    },
-    icon: {
-        type: String
-    },
-    developer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Developer,
-        required: true
-    },
-    currency: {
-        type: String
-    },
-    price: {
-        type: String,
-    },
-    free: {
-        type: String
-    },
-    summary: {
-        type: String,
-    },
-    scoreText: {
-        type: String
-    },
-    score: {
-        type: String
-    },
-    playstoreUrl: {
-        type: String,
-    },
-    permissions: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Permission,
-        required: true
-    },
-    similar: {
-        type: String
-    },
-    reviews: {
-        type: String,
-    },
-    datasafety: {
-        type: String
-    },
-    categories: {
-        type: String
-    },
-    createAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-    },
+    price: Number,
+    originalPrice: Number,
+    discountEndDate: String,
+    free: Boolean,
+    currency: String,
+    priceText: String,
+    available: Boolean,
+    offersIAP: Boolean,
+    IAPRange: String,
+    androidVersion: String,
+    androidVersionText: String,
+    androidMaxVersion: String,
+    developer: String,
+    developerId: String,
+    developerEmail: String,
+    developerWebsite: String,
+    developerAddress: String,
+    privacyPolicy: String,
+    developerInternalID: String,
+    genre: String,
+    genreId: String,
+    categories: [
+        {
+            name: String,
+            id: String,
+        },
+    ],
+    icon: String,
+    headerImage: String,
+    screenshots: [String],
+    video: String,
+    videoImage: String,
+    previewVideo: String,
+    contentRating: String,
+    contentRatingDescription: String,
+    adSupported: Boolean,
+    released: String,
+    updated: Date,
+    version: String,
+    recentChanges: String,
+    comments: [String],
+    preregister: Boolean,
+    earlyAccessEnabled: Boolean,
+    isAvailableInPlayPass: Boolean,
+    appId: String,
+    url: String,
 });
 
-const model = mongoose.model('Apps', schema);
+const model = mongoose.model('App', schema);
 
 module.exports = model;

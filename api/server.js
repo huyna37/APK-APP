@@ -19,7 +19,7 @@ app.use(mongoSanitize());
 
 mongoose
   .connect(
-    "mongodb://103.252.137.158:27018/truyenvui"
+    "mongodb://localhost:27017"
   )
   .then(async () => {
     console.log("Kết nói tc!!");

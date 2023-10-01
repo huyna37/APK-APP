@@ -3,19 +3,17 @@ const qs = require('querystring');
 const path = require('path');
 
 exports.GetListApp = async (req) => {
-    let query = {
-        category: req.query.category.toUpperCase(),
-        collection: gplay.collection.TOP_FREE,
-        num: req.query.num
-    }
-    let response = await gplay.list(query);
-    return toList(response.map(cleanUrls(req)));
+    let response = await gplay.list(req);
+    return toList(response);
 }
 
 exports.GetByAppId = async (req) => {
-    const opts = Object.assign({ appId: req.params.appId }, req.query);
-    let response = await gplay.app(opts);
-    return cleanUrls(response);
+    try {
+        return await gplay.app({ appId: req });
+    }
+    catch (e) {
+        console.log('GetByAppId', e)
+    }
 }
 
 exports.GetListSearch = async (req) => {
@@ -26,27 +24,46 @@ exports.GetListSearch = async (req) => {
 }
 
 exports.GetBySimilar = async (req) => {
-    const opts = Object.assign({ appId: req.params.appId }, req.query);
-    let response = await gplay.similar(opts);
-    return toList(response.map(cleanUrls(req)));
+    try {
+        let response = await gplay.similar(req);
+        return toList(response);
+    }
+    catch (e) {
+    }
+
 }
 
 exports.GetByDatasafety = async (req) => {
-    const opts = Object.assign({ appId: req.params.appId }, req.query);
-    let response = await gplay.datasafety(opts);
-    return toList(response.map(cleanUrls(req)));
+    try {
+        let response = await gplay.datasafety(req);
+        return toList(response);
+    }
+    catch (e) {
+        console.log('GetByDatasafety', e)
+    }
+
 }
 
 exports.GetByPermissions = async (req) => {
-    const opts = Object.assign({ appId: req.params.appId }, req.query);
-    let response = await gplay.permissions(opts);
-    return toList(response);
+    try {
+        let response = await gplay.permissions(req);
+        return toList(response);
+    }
+    catch (e) {
+        console.log('GetByPermissions', e)
+    }
+
 }
 
 exports.GetReviews = async (req) => {
-    const opts = Object.assign({ appId: req.params.appId }, req.query);
-    let response = await gplay.reviews(opts);
-    return toList(response);
+    try {
+        let response = await gplay.reviews(req);
+        return toList(response);
+    }
+    catch (e) {
+        console.log('GetReviews', e)
+    }
+
 }
 
 exports.GetSuggest = async (req) => {
