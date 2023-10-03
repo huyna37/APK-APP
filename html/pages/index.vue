@@ -16,6 +16,7 @@ async function getShoppings() {
         params: query
     });
     shoppings = data?.value?.result?.data;
+    console.log('shopping',data?.value?.result?.data[0])
 }
 
 async function getGames() {
@@ -43,9 +44,14 @@ async function getPopulars() {
     const { data } = await customFetch<any>(`/home/`, {
         params: query
     });
+
     populars = data?.value?.result?.data;
+    console.log('popular',data?.value?.result?.data[0])
 }
-await Promise.all([getShoppings(), getGames(), getPopulars()])
+await getShoppings();
+await getGames();
+await getPopulars();
+
 
 </script>
 
@@ -427,6 +433,7 @@ await Promise.all([getShoppings(), getGames(), getPopulars()])
                         title="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android"
                             alt="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android"
                             :src="popular.icon">
+                        <img class="article-banner lazy loaded" :src="popular.icon"/>
                         <div class="text">
                             <div class="article-title double-lines">{{popular.title}}</div>
                             <div class="updated one-line">Mar 17, 2023</div>
