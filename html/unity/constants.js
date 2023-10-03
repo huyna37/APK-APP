@@ -1,4 +1,4 @@
-export default categoryArray = [
+const categories = [
     'APPLICATION',
     'ANDROID_WEAR',
     'ART_AND_DESIGN',
@@ -54,3 +54,5 @@ export default categoryArray = [
     'GAME_WORD',
     'FAMILY'
 ];
+
+export default categories;

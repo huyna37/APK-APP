@@ -56,41 +56,18 @@
                 <div class="item many searching-hide" id="article_item">
                     <span class="nav-article dt_nav_button dt-nav-parent">
                         <i class="icon icon_article"></i>
-                        <span class="dt_menu_text">Các bài báo</span>
+                        <span class="dt_menu_text">Thể loại</span>
                     </span>
                     <ul class="nav_submenu">
                         <li class="nav_submenu-item">
                             <div class="menu_list">
                                 <div class="menu_body">
                                     <ul>
-                                        <li>
+                                        <li v-for="category in categories">
                                             <a href="https://apkpure.com/vn/news" class="dt_menu_text"
                                                 title="Daily Games News Update" dt-eid="nav_button"
-                                                dt-params="small_position=6&amp;nav_button_name=Tin%20t%E1%BB%A9c"
-                                                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">Tin
-                                                tức</a>
+                                                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">{{category}}</a>
                                         </li>
-                                        <li>
-                                            <a href="https://apkpure.com/vn/reviews" class="dt_menu_text"
-                                                title="Ratings, Reviews, and Where to Find the Best Apps"
-                                                dt-eid="nav_button"
-                                                dt-params="small_position=7&amp;nav_button_name=Nh%E1%BA%ADn%20x%C3%A9t"
-                                                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">Nhận
-                                                xét</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://apkpure.com/vn/howto" class="dt_menu_text"
-                                                title="Trending Game &amp; App How-To Tutorials, Guides, Tips &amp; Tricks"
-                                                dt-eid="nav_button"
-                                                dt-params="small_position=8&amp;nav_button_name=How%20To" dt-imp-once="true"
-                                                dt-imp-end-ignore="true" dt-send-beacon="true">How
-                                                To</a>
-                                        </li>
-                                        <li><a href="https://apkpure.com/vn/topics" class="dt_menu_text" title="Chủ đề"
-                                                dt-eid="nav_button"
-                                                dt-params="small_position=9&amp;nav_button_name=Ch%E1%BB%A7%20%C4%91%E1%BB%81"
-                                                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">Chủ
-                                                đề</a></li>
                                     </ul>
                                     <div class="clear"></div>
                                 </div>
