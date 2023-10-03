@@ -126,15 +126,6 @@
                         </li>
                     </ul>
                 </div>
-                <div class="item nav_tv searching-hide">
-                    <a title="TVOnic" class="dt_nav_button" rel="noopener" target="_blank"
-                        href="https://tvonic.com/?utm_source=topmenu&amp;utm_medium=APKPure&amp;utm_campaign=click"
-                        dt-eid="nav_button" dt-params="small_position=5&amp;nav_button_name=%20TVOnic" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <i class="icon icon_tv"></i>
-                        <span class="dt_menu_text"> TVOnic</span>
-                    </a>
-                </div>
                 <div class="item search">
                     <form class="formsearch searching-show" method="get" action="https://apkpure.com/vn/search"
                         onsubmit="onSearchSubmit(event)" data-detail-url-origin="https://apkpure.com"

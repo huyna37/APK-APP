@@ -28,7 +28,14 @@ mongoose
 
 app.use('/home/', homeRouter);
 app.use('/app/', appRouter);
-
+String.prototype.isObjectString = (value) => {
+  try {
+    const obj = JSON.parse(value);
+    return typeof obj === "object" && obj !== null;
+  } catch (error) {
+    return false;
+  }
+};
 
 app.listen(3005, ()=> {
     console.info("It's running localhost:3005")

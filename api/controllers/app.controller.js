@@ -22,7 +22,7 @@ const migrateAppData = async (appId) => {
     const review = await GPlayService.GetReviews({
       appId: detail.appId,
       sort: gplay.sort.RATING,
-      num: 1000,
+      num: 50,
     });
     review.appId = newApp.id;
     const reviewsWithAppId = review.results.data.map(reviewItem => ({

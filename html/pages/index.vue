@@ -1,6 +1,51 @@
 <script setup lang="ts">
-import categories from '@/unity/constants.js';
-const { data } = await customFetch<any>('/home?page=1&limit=20')
+import category from '@/unity/constants.js';
+
+let shoppings = ref<any>([]);
+let games = ref<any>([]);
+let populars = ref<any>([]);
+async function getShoppings() {
+    let query = {
+        page: 1,
+        limit: 20,
+        sortField: 'views',
+        sortOrder: 'desc',
+        filterOptions: JSON.stringify({ "genreId": category.SHOPPING })
+    }
+    const { data } = await customFetch<any>(`/home/`, {
+        params: query
+    });
+    shoppings = data?.value?.result?.data;
+}
+
+async function getGames() {
+    let query = {
+        page: 1,
+        limit: 20,
+        sortField: 'views',
+        sortOrder: 'desc',
+        filterOptions: JSON.stringify({ "genreId": category.GAME })
+    }
+    const { data } = await customFetch<any>(`/home/`, {
+        params: query
+    });
+    games = data?.value?.result?.data;
+}
+
+async function getPopulars() {
+    let query = {
+        page: 2,
+        limit: 20,
+        sortField: 'views',
+        sortOrder: 'asc',
+        filterOptions: JSON.stringify({ "genreId": category.COMICS })
+    }
+    const { data } = await customFetch<any>(`/home/`, {
+        params: query
+    });
+    populars = data?.value?.result?.data;
+}
+await Promise.all([getShoppings(), getGames(), getPopulars()])
 
 </script>
 
@@ -320,21 +365,14 @@ const { data } = await customFetch<any>('/home?page=1&limit=20')
                 dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more" title="Phát hiện"
                     href="/vn/discover" dt-eid="more" dt-params="small_position=12" dt-imp-once="true"
                     dt-imp-end-ignore="true" dt-send-beacon="true">
-                    <h3 class="name">Phát hiện</h3>
+                    <h3 class="name">Ứng Dụng Shopping Phổ biến</h3>
                 </a>
                 <div class="apk-list-1001 no-scrollbar enable-wrap">
-                    <a class="apk" title="EA SPORTS FC™ MOBILE APK" v-for="game in data"
-                        href="/vn/fifa-mobile/jp.co.nexon.fmja" data-dt-app="jp.co.nexon.fmja" dt-eid="app"
-                        dt-params="small_position=1&amp;package_name=jp.co.nexon.fmja" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <div class="img-ratio"><img class="icon lazy loaded" alt="EA SPORTS FC™ MOBILE APK"
-                                src="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9pY29uXzE2OTUzMzIwNDVfMDcx/icon.webp?w=102&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9pY29uXzE2OTUzMzIwNDVfMDcx/icon.webp?w=102&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9pY29uXzE2OTUzMzIwNDVfMDcx/icon.webp?w=204&amp;fakeurl=1&amp;type=.webp 2x"
-                                width="102" height="102"
-                                srcset="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9pY29uXzE2OTUzMzIwNDVfMDcx/icon.webp?w=204&amp;fakeurl=1&amp;type=.webp 2x"
-                                data-was-processed="true"></div>
-                        <div class="name double-lines">EA SPORTS FC™ MOBILE</div>
+                    <a class="apk" :title="shop.title" v-for="shop in shoppings"
+                        :href="shop.title">
+                        <div class="img-ratio"><img :src="shop.icon" class="icon lazy loaded" :alt="shop.title"
+                                width="102" height="102"></div>
+                        <div class="name double-lines">{{ shop.title }}</div>
                     </a>
                 </div>
             </div>
@@ -345,20 +383,18 @@ const { data } = await customFetch<any>('/home?page=1&limit=20')
                     dt-params="small_position=21" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Trò chơi phổ biến trong 24 giờ trước</h3>
                 </a>
-                <div class="apk-list-1002 no-scrollbar"><a class="apk" title=" FIFA MOBILE - (FIFA Chino)  APK"
+                <div class="apk-list-1002 no-scrollbar">
+                    <a class="apk" v-for="game in games"
                         href="/vn/fifa-mobile/com.nexon.fmk" data-dt-app="com.nexon.fmk" dt-eid="app"
                         dt-params="small_position=1&amp;package_name=com.nexon.fmk" dt-imp-once="true"
                         dt-imp-end-ignore="true" dt-send-beacon="true">
                         <div class="img-ratio"><img class="icon lazy loaded" alt=" FIFA MOBILE - (FIFA Chino)  APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLm5leG9uLmZta19pY29uXzE2OTUzODU2ODZfMDM1/icon.webp?w=102&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLm5leG9uLmZta19pY29uXzE2OTUzODU2ODZfMDM1/icon.webp?w=102&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLm5leG9uLmZta19pY29uXzE2OTUzODU2ODZfMDM1/icon.webp?w=204&amp;fakeurl=1&amp;type=.webp"
-                                width="102" height="102"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLm5leG9uLmZta19pY29uXzE2OTUzODU2ODZfMDM1/icon.webp?w=204&amp;fakeurl=1&amp;type=.webp"
-                                data-was-processed="true"></div>
-                        <div class="name double-lines"> FIFA MOBILE - (FIFA Chino) </div>
-                        <div class="score">9.1</div>
-                    </a></div>
+                                :src="game.icon"
+                                width="102" height="102"></div>
+                        <div class="name double-lines">{{ game.title }}</div>
+                        <div class="score">{{ game.scoreText }}</div>
+                    </a>
+                </div>
             </div>
             <div class="module popular-apps" dt-eid="card"
                 dt-params="model_type=1253&amp;module_name=popular_apps_24h&amp;position=6" dt-clck-ignore="true"
@@ -367,46 +403,36 @@ const { data } = await customFetch<any>('/home?page=1&limit=20')
                     dt-params="small_position=30" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Ứng dụng phổ biến trong 24 giờ trước</h3>
                 </a>
-                <div class="apk-list-1002 no-scrollbar"><a class="apk" title="Zalo APK" href="/vn/zalo/com.zing.zalo"
-                        data-dt-app="com.zing.zalo" dt-eid="app" dt-params="small_position=1&amp;package_name=com.zing.zalo"
-                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <div class="img-ratio"><img class="icon lazy loaded" alt="Zalo APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLnppbmcuemFsb19pY29uXzE1NjA4MzUzMjJfMDQ3/icon.webp?w=102&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLnppbmcuemFsb19pY29uXzE1NjA4MzUzMjJfMDQ3/icon.webp?w=102&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLnppbmcuemFsb19pY29uXzE1NjA4MzUzMjJfMDQ3/icon.webp?w=204&amp;fakeurl=1&amp;type=.webp"
-                                width="102" height="102"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLnppbmcuemFsb19pY29uXzE1NjA4MzUzMjJfMDQ3/icon.webp?w=204&amp;fakeurl=1&amp;type=.webp"
-                                data-was-processed="true"></div>
-                        <div class="name double-lines">Zalo</div>
-                        <div class="score">8.0</div>
+                <div class="apk-list-1002 no-scrollbar">    
+                    <a class="apk" v-for="popular in populars"
+                        href="/vn/fifa-mobile/com.nexon.fmk" data-dt-app="com.nexon.fmk" dt-eid="app"
+                        dt-params="small_position=1&amp;package_name=com.nexon.fmk" dt-imp-once="true"
+                        dt-imp-end-ignore="true" dt-send-beacon="true">
+                        <div class="img-ratio"><img class="icon lazy loaded" alt=" FIFA MOBILE - (FIFA Chino)  APK"
+                            :src="popular.icon"
+                                width="102" height="102"></div>
+                        <div class="name double-lines">{{ popular.title }}</div>
+                        <div class="score">{{ popular.scoreText }}</div>
                     </a></div>
             </div>
             <div class="module popular-articles" dt-eid="card"
                 dt-params="model_type=1254&amp;module_name=popular_articles_24h&amp;position=7" dt-clck-ignore="true"
                 dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
                     title="Các bài báo phổ biến trong 24 giờ qua"
-                    href="https://apkpure.com/vn/search?q=popular_article&amp;sat=articles&amp;ao=most&amp;at=home_recommend"
-                    dt-eid="more" dt-params="small_position=39" dt-imp-once="true" dt-imp-end-ignore="true"
-                    dt-send-beacon="true">
+                    href="https://apkpure.com/vn/search?q=popular_article&amp;sat=articles&amp;ao=most&amp;at=home_recommend">
                     <h3 class="name">Các bài báo phổ biến trong 24 giờ qua</h3>
                 </a>
-                <div class="article-list"><a class="article" href="/vn/howto/how-to-download-ace-racer"
-                        title="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android" data-dt-article-id="10075"
-                        data-dt-article-type="4" dt-eid="article"
-                        dt-params="small_position=1&amp;article_id=10075&amp;article_type=how%20to" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true"><img class="article-banner lazy loaded"
+                <div class="article-list">
+                    <a class="article" href="/vn/howto/how-to-download-ace-racer" v-for="popular in populars"
+                        title="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android"
                             alt="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android"
-                            src="https://static-sg.winudf.com/wupload/xy/aprojectadmin/C63M0xVJ.webp?imageMogr2/thumbnail/142x80"
-                            data-original="https://static-sg.winudf.com/wupload/xy/aprojectadmin/C63M0xVJ.webp?imageMogr2/thumbnail/142x80"
-                            data-srcset="https://static-sg.winudf.com/wupload/xy/aprojectadmin/C63M0xVJ.webp?imageMogr2/thumbnail/284x160 2x"
-                            width="142" height="80"
-                            srcset="https://static-sg.winudf.com/wupload/xy/aprojectadmin/C63M0xVJ.webp?imageMogr2/thumbnail/284x160 2x"
-                            data-was-processed="true">
+                            :src="popular.icon">
                         <div class="text">
-                            <div class="article-title double-lines">Cách Tải Và Chơi Game Ace Racer Trên IOS, Android</div>
+                            <div class="article-title double-lines">{{popular.title}}</div>
                             <div class="updated one-line">Mar 17, 2023</div>
                         </div>
-                    </a></div>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="right">
