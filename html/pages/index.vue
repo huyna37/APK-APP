@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const { data } = await customFetch<any>('/api/apps?category=GAME')
+import categories from '@/unity/constants.js';
+const { data } = await customFetch<any>('/home?page=1&limit=20')
 
 </script>
 

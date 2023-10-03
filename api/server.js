@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const router = require('./lib');
+const homeRouter = require('./routes/home.routes');
 const appRouter = require('./routes/app.routes');
 const crypto = require('crypto');
 const cors = require("cors");
@@ -25,10 +25,10 @@ mongoose
     console.log("Kết nói tc!!");
   });
 
-app.use('/api/', router);
+app.use('/home/', homeRouter);
 app.use('/app/', appRouter);
 
 
 app.listen(3005, ()=> {
-    console.info("It's running")
+    console.info("It's running localhost:3005")
 })

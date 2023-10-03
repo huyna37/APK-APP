@@ -11,9 +11,9 @@ const migrateAppData = async (appId) => {
   const detail = await GPlayService.GetByAppId(appId);
 
   // Check if the app already exists
-  const isExists = await AppModel.findOne({ appId: detail.appId });
+  const isExists = await AppModel.findOne({ appId: detail?.appId });
 
-  if (!isExists) {
+  if (!isExists && detail) {
     // Create and save the app document to the database
     const newApp = new AppModel(detail);
     await newApp.save();

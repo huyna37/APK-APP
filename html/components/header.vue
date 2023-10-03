@@ -242,3 +242,8 @@
         </div>
     </header>
 </template>
+
+<script setup>
+import categories from '@/unity/constants.js';
+
+</script>
