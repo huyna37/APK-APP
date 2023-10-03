@@ -24,18 +24,21 @@ const migrateAppData = async (appId) => {
       sort: gplay.sort.RATING,
       num: 50,
     });
-    review.appId = newApp.id;
-    const reviewsWithAppId = review.results.data.map(reviewItem => ({
-      ...reviewItem,
-      appId: newApp.id,
-    }));
 
-    // Use insertMany to insert all reviews at once
-    await ReviewModel.insertMany(reviewsWithAppId);
-
-    const similar = await GPlayService.GetBySimilar({ appId: detail.appId });
-    if (similar?.results.length > 0) {
-      const similarsWithAppId = similar.results.map(similarItem => ({
+    if(review && review.results?.data) {
+      review.appId = newApp.id;
+      const reviewsWithAppId = review.results?.data?.map(reviewItem => ({
+        ...reviewItem,
+        appId: newApp.id,
+      }));
+  
+      // Use insertMany to insert all reviews at once
+      await ReviewModel.insertMany(reviewsWithAppId);
+    }
+   
+    const similar = await GPlayService.GetBySimilar({ appId: detail?.appId });
+    if (similar?.results?.length > 0) {
+      const similarsWithAppId = similar?.results?.map(similarItem => ({
         ...similarItem,
         appId: newApp.id,
       }));
@@ -47,9 +50,9 @@ const migrateAppData = async (appId) => {
     }
 
 
-    const permissions = await GPlayService.GetByPermissions({ appId: detail.appId });
-    if (permissions.results.length > 0) {
-      const permissionsWithAppId = permissions.results.map(permissionItem => ({
+    const permissions = await GPlayService.GetByPermissions({ appId: detail?.appId });
+    if (permissions.results?.length > 0) {
+      const permissionsWithAppId = permissions.results?.map(permissionItem => ({
         ...permissionItem,
         appId: newApp.id,
       }));
@@ -57,7 +60,7 @@ const migrateAppData = async (appId) => {
       await PermissionModel.insertMany(permissionsWithAppId);
     }
 
-    const datasafety = await GPlayService.GetByDatasafety({ appId: detail.appId });
+    const datasafety = await GPlayService.GetByDatasafety({ appId: detail?.appId });
     datasafety.results.appId = newApp.id;
 
 
@@ -81,7 +84,7 @@ exports.migrateData = async (req, res) => {
         const listApp = await GPlayService.GetListApp(query);
 
         for (const appResult of listApp.results) {
-          await migrateAppData(appResult.appId);
+          await migrateAppData(appResult?.appId);
         }
       }
     }
