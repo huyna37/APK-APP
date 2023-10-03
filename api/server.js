@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
 const mongoose = require('mongoose')
+require('dotenv').config();
 const corsOptions = {
   origin: "*",
 };
@@ -19,7 +20,7 @@ app.use(mongoSanitize());
 
 mongoose
   .connect(
-    "mongodb://localhost:27017"
+    process.env.MONGO
   )
   .then(async () => {
     console.log("Kết nói tc!!");
