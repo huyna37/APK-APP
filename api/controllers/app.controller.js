@@ -82,7 +82,7 @@ exports.migrateData = async (req, res) => {
         };
 
         const listApp = await GPlayService.GetListApp(query);
-
+        if(!listApp?.results) continue;
         for (const appResult of listApp.results) {
           await migrateAppData(appResult?.appId);
         }

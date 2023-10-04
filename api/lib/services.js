@@ -3,8 +3,14 @@ const qs = require('querystring');
 const path = require('path');
 
 exports.GetListApp = async (req) => {
-    let response = await gplay.list(req);
-    return toList(response);
+    try {
+        let response = await gplay.list(req);
+        return toList(response);
+    }
+    catch (e) {
+        console.log('GetListApp', req)
+    }
+   
 }
 
 exports.GetByAppId = async (req) => {
