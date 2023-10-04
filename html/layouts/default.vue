@@ -2,7 +2,7 @@
     <div>
         <!-- <Navbar /> -->
         <Header />
-        <div class="container w-100">
+        <div class="w-100">
             <slot />
         </div>
         <Footer/>

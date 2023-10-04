@@ -4,238 +4,233 @@ import category from '@/unity/constants.js';
 let shoppings = ref<any>([]);
 let games = ref<any>([]);
 let populars = ref<any>([]);
-async function getShoppings() {
-    let query = {
-        page: 1,
-        limit: 20,
-        sortField: 'views',
-        sortOrder: 'desc',
-        filterOptions: JSON.stringify({ "genreId": category.SHOPPING })
-    }
-    const { data } = await customFetch<any>(`/home/`, {
-        params: query
+let beauties = ref<any>([]);
+let daties = ref<any>([]);
+let gameSellings = ref<any>([]);
+let newGames = ref<any>([]);
+let newApplications = ref<any>([]);
+let gameAdvances = ref<any>([]);
+let sliderApp = ref<any>([]);
+
+const { $customFetch } = useNuxtApp();
+
+async function getGameAdvances() {
+    let data = await $customFetch(`/home`, {
+        params: {
+            page: 1,
+            limit: 10,
+            sortField: 'views',
+            sortOrder: 'desc',
+            filterOptions: JSON.stringify({ "genreId": category.GAME_CARD })
+        }
     });
-    shoppings = data?.value?.result?.data;
-    console.log('shopping',data?.value?.result?.data[0])
+    gameAdvances = data.result?.data;
+    console.log('shopping', data.result?.data[0])
+}
+
+async function getSliderApp() {
+    let data = await $customFetch(`/home`, {
+        params: {
+            page: 1,
+            limit: 6,
+            sortField: 'score',
+            sortOrder: 'asc',
+            filterOptions: JSON.stringify({ "genreId": category.ART_AND_DESIGN })
+        }
+    });
+    sliderApp = data.result?.data;
+    console.log('shopping', data.result?.data[0])
+}
+
+async function getShoppings() {
+    let data = await $customFetch(`/home`, {
+        params: {
+            page: 1,
+            limit: 20,
+            sortField: 'views',
+            sortOrder: 'desc',
+            filterOptions: JSON.stringify({ "genreId": category.SHOPPING })
+        }
+    });
+    shoppings = data.result?.data;
+    console.log('shopping', data.result?.data[0])
 }
 
 async function getGames() {
-    let query = {
+    let data = await $customFetch(`/home`, {
+        params: {
         page: 1,
         limit: 20,
         sortField: 'views',
         sortOrder: 'desc',
-        filterOptions: JSON.stringify({ "genreId": category.GAME })
+        filterOptions: JSON.stringify({ "genreId": category.GAME_ACTION })
     }
-    const { data } = await customFetch<any>(`/home/`, {
-        params: query
     });
-    games = data?.value?.result?.data;
+    games = data.result?.data;
 }
 
 async function getPopulars() {
-    let query = {
-        page: 2,
-        limit: 20,
-        sortField: 'views',
-        sortOrder: 'asc',
-        filterOptions: JSON.stringify({ "genreId": category.COMICS })
-    }
-    const { data } = await customFetch<any>(`/home/`, {
-        params: query
+    let data = await $customFetch(`/home`, {
+        params: {
+            page: 1,
+            limit: 20,
+            sortField: 'views',
+            sortOrder: 'asc',
+            filterOptions: JSON.stringify({ "genreId": category.COMICS })
+        }
     });
 
-    populars = data?.value?.result?.data;
-    console.log('popular',data?.value?.result?.data[0])
+    populars = data.result?.data;
+    console.log('popular', data.result?.data[0])
 }
-await getShoppings();
-await getGames();
-await getPopulars();
 
+async function getBeauties() {
+    let data = await $customFetch(`/home`, {
+        params: {
+            page: 1,
+            limit: 20,
+            sortField: 'views',
+            sortOrder: 'asc',
+            filterOptions: JSON.stringify({ "genreId": category.BEAUTY })
+        }
+    });
+
+    beauties = data.result?.data;
+    console.log('getBeauties', data.result?.data[0])
+}
+
+async function getDaties() {
+    let data = await $customFetch(`/home`, {
+        params: {
+            page: 1,
+            limit: 20,
+            sortField: 'views',
+            sortOrder: 'asc',
+            filterOptions: JSON.stringify({ "genreId": category.DATING })
+        }
+    });
+
+    daties = data.result?.data;
+    console.log('getDaties', data.result?.data[0])
+}
+
+async function getGameSellings() {
+    let data = await $customFetch(`/home`, {
+        params: {
+            page: 1,
+            limit: 10,
+            sortField: 'views',
+            sortOrder: 'asc',
+            filterOptions: JSON.stringify({ "genreId": category.GAME_ADVENTURE, "price": { $ne: '0' } })
+        }
+    });
+
+    gameSellings = data.result?.data;
+    console.log('getDaties', data.result?.data[0])
+}
+
+async function getNewGames() {
+    let data = await $customFetch(`/home`, {
+        params: {
+            page: 1,
+            limit: 10,
+            sortField: 'views',
+            sortOrder: 'asc',
+            filterOptions: JSON.stringify({ "genreId": category.GAME_ACTION })
+        }
+    });
+
+    newGames = data.result?.data;
+    console.log('getDaties', data.result?.data[0])
+}
+
+async function getNewApplications() {
+    let data = await $customFetch(`/home`, {
+        params: {
+            page: 1,
+            limit: 10,
+            sortField: 'released',
+            sortOrder: 'desc',
+            filterOptions: JSON.stringify({ "genreId": category.ART_AND_DESIGN})
+        }
+    });
+
+    newApplications = data.result?.data;
+    console.log('getDaties', data.result?.data[0])
+}
+
+await Promise.all([getShoppings(), getGames(), getPopulars(), getBeauties(), getDaties(), getNewGames(), getGameSellings(), getNewApplications()]);
+
+await Promise.all([getSliderApp(), getGameAdvances()]);
+
+let currentBanner = ref(0);
+const step = -868;
+
+function handleSlider(num: Number) {
+    const maxSlider = (sliderApp.length - 1) * step;
+    
+    if(num == 1) {
+        if(currentBanner.value == maxSlider) {
+            currentBanner.value = 0;
+        } 
+        else {
+            currentBanner.value += step;
+        }
+    }
+    else {
+        if(currentBanner.value == 0) {
+            currentBanner.value = maxSlider;
+        }
+        else {
+            currentBanner.value -= step;
+        }
+    }
+}
+
+setInterval(() => handleSlider(1), 5000);
 
 </script>
 
 <template>
     <div class="main-body">
         <div class="left">
-            <div id="top-slide-banner" class="slide-banner" dt-eid="card"
-                dt-params="model_type=1007&amp;module_name=banner&amp;position=1" dt-clck-ignore="true" dt-imp-once="true"
-                dt-imp-end-ignore="true" dt-send-beacon="true">
+            <div id="top-slide-banner" class="slide-banner">
                 <div class="container">
                     <div class="tempWrap" style="overflow:hidden; position:relative;">
                         <div class="list"
-                            style="width: 5208px; position: relative; overflow: hidden; padding: 0px; margin: 0px; transition-duration: 0ms; transform: translate(-868px, 0px) translateZ(0px);">
-                            <a title="Cash’em All: Play &amp;amp; Win APK" class="banner-item"
-                                href="/vn/cash%E2%80%99em-all-play-win/online.cashemall.app"
-                                data-dt-app="online.cashemall.app" data-dt-recid="" dt-eid="app" delegationsource="true"
-                                dt-params="small_position=4&amp;package_name=online.cashemall.app" dt-imp-once="true"
-                                dt-imp-end-ignore="true" dt-send-beacon="true"
+                            :style="{
+                                width: '5208px',
+                                position: 'relative',
+                                overflow: 'hidden',
+                                padding: '0px',
+                                margin: '0px',
+                                transitionDuration: '200ms',
+                                transform: `translate(${currentBanner}px, 0px) translateZ(0px)`
+                                }">
+                            <a :title="slider.title" class="banner-item"
+                                v-for="slider in sliderApp"
+                                href="#"
                                 style="display: table-cell; vertical-align: top; width: 868px;"><img
-                                    class="banner-bg lazy loaded" alt="Cash’em All: Play &amp; Win"
-                                    src="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=360&amp;fakeurl=1&amp;type=.webp"
-                                    data-original="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=360&amp;fakeurl=1&amp;type=.webp"
-                                    data-srcset="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=720&amp;fakeurl=1&amp;type=.webp 720w, https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=1080&amp;fakeurl=1&amp;type=.webp 1080w, https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=1736&amp;fakeurl=1&amp;type=.webp 1736w"
+                                    class="banner-bg lazy loaded" :alt="slider.title"
+                                    :src="slider.icon"
                                     sizes="(max-width: 996px) 100vw, 868px" width="360" height="170"
-                                    srcset="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=720&amp;fakeurl=1&amp;type=.webp 720w, https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=1080&amp;fakeurl=1&amp;type=.webp 1080w, https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=1736&amp;fakeurl=1&amp;type=.webp 1736w"
                                     data-was-processed="true">
                                 <div class="mask"></div>
-                                <div class="info"><img class="icon lazy" alt="Cash’em All: Play &amp; Win"
-                                        src="data:image/gif;base64,R0lGODlhAQABAPAAAPX19QAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQEAgD/ACwAAAAAAQABAAACAkQBADs="
-                                        data-original="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfaWNvbl8xNTk0NDA0NDY5XzAwOA/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-srcset="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfaWNvbl8xNTk0NDA0NDY5XzAwOA/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
+                                <div class="info"><img class="icon lazy" :alt="slider.title"
+                                        :src="slider.icon"
                                         width="32" height="32">
-                                    <div class="name">Cash’em All: Play &amp; Win</div>
-                                    <div class="button"
-                                        apkpure-click-go="/vn/cash%E2%80%99em-all-play-win/online.cashemall.app/download"
-                                        dt-eid="download_button" delegationsource="true"
-                                        dt-params="module_name=download_button&amp;small_position=5" dt-imp-once="true"
-                                        dt-imp-end-ignore="true" dt-send-beacon="true">Tải về</div>
-                                </div>
-                            </a><a title="Pokémon GO APK" class="banner-item"
-                                href="/vn/pokemon-go/com.nianticlabs.pokemongo" data-dt-app="com.nianticlabs.pokemongo"
-                                data-dt-recid="" dt-eid="app" delegationsource="true"
-                                dt-params="small_position=1&amp;package_name=com.nianticlabs.pokemongo" dt-imp-once="true"
-                                dt-imp-end-ignore="true" dt-send-beacon="true"
-                                style="display: table-cell; vertical-align: top; width: 868px;"><img class="banner-bg"
-                                    alt="Pokémon GO"
-                                    src="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19iYW5uZXJfMTU1NTU2MDE5OF8wNTg/banner.webp?w=360&amp;fakeurl=1&amp;type=.webp"
-                                    srcset="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19iYW5uZXJfMTU1NTU2MDE5OF8wNTg/banner.webp?w=720&amp;fakeurl=1&amp;type=.webp 720w, https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19iYW5uZXJfMTU1NTU2MDE5OF8wNTg/banner.webp?w=1080&amp;fakeurl=1&amp;type=.webp 1080w, https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19iYW5uZXJfMTU1NTU2MDE5OF8wNTg/banner.webp?w=1736&amp;fakeurl=1&amp;type=.webp 1736w"
-                                    sizes="(max-width: 996px) 100vw, 868px" width="360" height="170">
-                                <div class="mask"></div>
-                                <div class="info"><img class="icon lazy loaded" alt="Pokémon GO"
-                                        src="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19pY29uXzE2OTQwMTUwNTlfMDE5/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-original="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19pY29uXzE2OTQwMTUwNTlfMDE5/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-srcset="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19pY29uXzE2OTQwMTUwNTlfMDE5/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
-                                        width="32" height="32"
-                                        srcset="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19pY29uXzE2OTQwMTUwNTlfMDE5/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
-                                        data-was-processed="true">
-                                    <div class="name">Pokémon GO</div>
-                                    <div class="button" apkpure-click-go="/vn/pokemon-go/com.nianticlabs.pokemongo/download"
-                                        dt-eid="download_button" delegationsource="true"
-                                        dt-params="module_name=download_button&amp;small_position=5" dt-imp-once="true"
-                                        dt-imp-end-ignore="true" dt-send-beacon="true">Tải về</div>
-                                </div>
-                            </a><a title="Avast Cleanup – Phone Cleaner APK" class="banner-item"
-                                href="/vn/avast-cleanup-%E2%80%93-phone-cleaner/com.avast.android.cleaner"
-                                data-dt-app="com.avast.android.cleaner" data-dt-recid="" dt-eid="app"
-                                delegationsource="true"
-                                dt-params="small_position=2&amp;package_name=com.avast.android.cleaner" dt-imp-once="true"
-                                dt-imp-end-ignore="true" dt-send-beacon="true"
-                                style="display: table-cell; vertical-align: top; width: 868px;"><img
-                                    class="banner-bg lazy loaded" alt="Avast Cleanup – Phone Cleaner"
-                                    src="https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9iYW5uZXJfdmktVk5fMTYyMTg1ODMxM18wNTY/banner.webp?w=360&amp;fakeurl=1&amp;type=.webp"
-                                    data-original="https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9iYW5uZXJfdmktVk5fMTYyMTg1ODMxM18wNTY/banner.webp?w=360&amp;fakeurl=1&amp;type=.webp"
-                                    data-srcset="https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9iYW5uZXJfdmktVk5fMTYyMTg1ODMxM18wNTY/banner.webp?w=720&amp;fakeurl=1&amp;type=.webp 720w, https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9iYW5uZXJfdmktVk5fMTYyMTg1ODMxM18wNTY/banner.webp?w=1080&amp;fakeurl=1&amp;type=.webp 1080w, https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9iYW5uZXJfdmktVk5fMTYyMTg1ODMxM18wNTY/banner.webp?w=1736&amp;fakeurl=1&amp;type=.webp 1736w"
-                                    sizes="(max-width: 996px) 100vw, 868px" width="360" height="170"
-                                    srcset="https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9iYW5uZXJfdmktVk5fMTYyMTg1ODMxM18wNTY/banner.webp?w=720&amp;fakeurl=1&amp;type=.webp 720w, https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9iYW5uZXJfdmktVk5fMTYyMTg1ODMxM18wNTY/banner.webp?w=1080&amp;fakeurl=1&amp;type=.webp 1080w, https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9iYW5uZXJfdmktVk5fMTYyMTg1ODMxM18wNTY/banner.webp?w=1736&amp;fakeurl=1&amp;type=.webp 1736w"
-                                    data-was-processed="true">
-                                <div class="mask"></div>
-                                <div class="info"><img class="icon lazy loaded" alt="Avast Cleanup – Phone Cleaner"
-                                        src="https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9pY29uXzE2NzMwOTIyNzNfMDM2/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-original="https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9pY29uXzE2NzMwOTIyNzNfMDM2/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-srcset="https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9pY29uXzE2NzMwOTIyNzNfMDM2/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
-                                        width="32" height="32"
-                                        srcset="https://image.winudf.com/v2/image1/Y29tLmF2YXN0LmFuZHJvaWQuY2xlYW5lcl9pY29uXzE2NzMwOTIyNzNfMDM2/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
-                                        data-was-processed="true">
-                                    <div class="name">Avast Cleanup – Phone Cleaner</div>
-                                    <div class="button"
-                                        apkpure-click-go="/vn/avast-cleanup-%E2%80%93-phone-cleaner/com.avast.android.cleaner/download"
-                                        dt-eid="download_button" delegationsource="true"
-                                        dt-params="module_name=download_button&amp;small_position=5" dt-imp-once="true"
-                                        dt-imp-end-ignore="true" dt-send-beacon="true">Tải về</div>
-                                </div>
-                            </a><a title="TuneIn Radio: News, Music &amp;amp; FM APK" class="banner-item"
-                                href="/vn/tunein-radio-news-music-fm/tunein.player" data-dt-app="tunein.player"
-                                data-dt-recid="" dt-eid="app" delegationsource="true"
-                                dt-params="small_position=3&amp;package_name=tunein.player" dt-imp-once="true"
-                                dt-imp-end-ignore="true" dt-send-beacon="true"
-                                style="display: table-cell; vertical-align: top; width: 868px;"><img
-                                    class="banner-bg lazy loaded" alt="TuneIn Radio: News, Music &amp; FM"
-                                    src="https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9iYW5uZXJfMTY4NjEyNjk0Ml8wNjU/banner.webp?w=360&amp;fakeurl=1&amp;type=.webp"
-                                    data-original="https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9iYW5uZXJfMTY4NjEyNjk0Ml8wNjU/banner.webp?w=360&amp;fakeurl=1&amp;type=.webp"
-                                    data-srcset="https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9iYW5uZXJfMTY4NjEyNjk0Ml8wNjU/banner.webp?w=720&amp;fakeurl=1&amp;type=.webp 720w, https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9iYW5uZXJfMTY4NjEyNjk0Ml8wNjU/banner.webp?w=1080&amp;fakeurl=1&amp;type=.webp 1080w, https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9iYW5uZXJfMTY4NjEyNjk0Ml8wNjU/banner.webp?w=1736&amp;fakeurl=1&amp;type=.webp 1736w"
-                                    sizes="(max-width: 996px) 100vw, 868px" width="360" height="170"
-                                    srcset="https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9iYW5uZXJfMTY4NjEyNjk0Ml8wNjU/banner.webp?w=720&amp;fakeurl=1&amp;type=.webp 720w, https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9iYW5uZXJfMTY4NjEyNjk0Ml8wNjU/banner.webp?w=1080&amp;fakeurl=1&amp;type=.webp 1080w, https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9iYW5uZXJfMTY4NjEyNjk0Ml8wNjU/banner.webp?w=1736&amp;fakeurl=1&amp;type=.webp 1736w"
-                                    data-was-processed="true">
-                                <div class="mask"></div>
-                                <div class="info"><img class="icon lazy loaded" alt="TuneIn Radio: News, Music &amp; FM"
-                                        src="https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9pY29uXzE1NTcyNjIwNDNfMDU4/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-original="https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9pY29uXzE1NTcyNjIwNDNfMDU4/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-srcset="https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9pY29uXzE1NTcyNjIwNDNfMDU4/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
-                                        width="32" height="32"
-                                        srcset="https://image.winudf.com/v2/image1/dHVuZWluLnBsYXllcl9pY29uXzE1NTcyNjIwNDNfMDU4/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
-                                        data-was-processed="true">
-                                    <div class="name">TuneIn Radio: News, Music &amp; FM</div>
-                                    <div class="button"
-                                        apkpure-click-go="/vn/tunein-radio-news-music-fm/tunein.player/download"
-                                        dt-eid="download_button" delegationsource="true"
-                                        dt-params="module_name=download_button&amp;small_position=5" dt-imp-once="true"
-                                        dt-imp-end-ignore="true" dt-send-beacon="true">Tải về</div>
-                                </div>
-                            </a><a title="Cash’em All: Play &amp;amp; Win APK" class="banner-item"
-                                href="/vn/cash%E2%80%99em-all-play-win/online.cashemall.app"
-                                data-dt-app="online.cashemall.app" data-dt-recid="" dt-eid="app" delegationsource="true"
-                                dt-params="small_position=4&amp;package_name=online.cashemall.app" dt-imp-once="true"
-                                dt-imp-end-ignore="true" dt-send-beacon="true"
-                                style="display: table-cell; vertical-align: top; width: 868px;"><img
-                                    class="banner-bg lazy loaded" alt="Cash’em All: Play &amp; Win"
-                                    src="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=360&amp;fakeurl=1&amp;type=.webp"
-                                    data-original="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=360&amp;fakeurl=1&amp;type=.webp"
-                                    data-srcset="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=720&amp;fakeurl=1&amp;type=.webp 720w, https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=1080&amp;fakeurl=1&amp;type=.webp 1080w, https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=1736&amp;fakeurl=1&amp;type=.webp 1736w"
-                                    sizes="(max-width: 996px) 100vw, 868px" width="360" height="170"
-                                    srcset="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=720&amp;fakeurl=1&amp;type=.webp 720w, https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=1080&amp;fakeurl=1&amp;type=.webp 1080w, https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfYmFubmVyXzE2OTQwNjA1ODBfMDg1/banner.webp?w=1736&amp;fakeurl=1&amp;type=.webp 1736w"
-                                    data-was-processed="true">
-                                <div class="mask"></div>
-                                <div class="info"><img class="icon lazy loaded" alt="Cash’em All: Play &amp; Win"
-                                        src="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfaWNvbl8xNTk0NDA0NDY5XzAwOA/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-original="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfaWNvbl8xNTk0NDA0NDY5XzAwOA/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-srcset="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfaWNvbl8xNTk0NDA0NDY5XzAwOA/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
-                                        width="32" height="32"
-                                        srcset="https://image.winudf.com/v2/image1/b25saW5lLmNhc2hlbWFsbC5hcHBfaWNvbl8xNTk0NDA0NDY5XzAwOA/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
-                                        data-was-processed="true">
-                                    <div class="name">Cash’em All: Play &amp; Win</div>
-                                    <div class="button"
-                                        apkpure-click-go="/vn/cash%E2%80%99em-all-play-win/online.cashemall.app/download"
-                                        dt-eid="download_button" delegationsource="true"
-                                        dt-params="module_name=download_button&amp;small_position=5" dt-imp-once="true"
-                                        dt-imp-end-ignore="true" dt-send-beacon="true">Tải về</div>
-                                </div>
-                            </a><a title="Pokémon GO APK" class="banner-item"
-                                href="/vn/pokemon-go/com.nianticlabs.pokemongo" data-dt-app="com.nianticlabs.pokemongo"
-                                data-dt-recid="" dt-eid="app" delegationsource="true"
-                                dt-params="small_position=1&amp;package_name=com.nianticlabs.pokemongo" dt-imp-once="true"
-                                dt-imp-end-ignore="true" dt-send-beacon="true"
-                                style="display: table-cell; vertical-align: top; width: 868px;"><img class="banner-bg"
-                                    alt="Pokémon GO"
-                                    src="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19iYW5uZXJfMTU1NTU2MDE5OF8wNTg/banner.webp?w=360&amp;fakeurl=1&amp;type=.webp"
-                                    srcset="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19iYW5uZXJfMTU1NTU2MDE5OF8wNTg/banner.webp?w=720&amp;fakeurl=1&amp;type=.webp 720w, https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19iYW5uZXJfMTU1NTU2MDE5OF8wNTg/banner.webp?w=1080&amp;fakeurl=1&amp;type=.webp 1080w, https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19iYW5uZXJfMTU1NTU2MDE5OF8wNTg/banner.webp?w=1736&amp;fakeurl=1&amp;type=.webp 1736w"
-                                    sizes="(max-width: 996px) 100vw, 868px" width="360" height="170">
-                                <div class="mask"></div>
-                                <div class="info"><img class="icon lazy loaded" alt="Pokémon GO"
-                                        src="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19pY29uXzE2OTQwMTUwNTlfMDE5/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-original="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19pY29uXzE2OTQwMTUwNTlfMDE5/icon.webp?w=48&amp;fakeurl=1&amp;type=.webp"
-                                        data-srcset="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19pY29uXzE2OTQwMTUwNTlfMDE5/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
-                                        width="32" height="32"
-                                        srcset="https://image.winudf.com/v2/image1/Y29tLm5pYW50aWNsYWJzLnBva2Vtb25nb19pY29uXzE2OTQwMTUwNTlfMDE5/icon.webp?w=96&amp;fakeurl=1&amp;type=.webp 2x"
-                                        data-was-processed="true">
-                                    <div class="name">Pokémon GO</div>
-                                    <div class="button" apkpure-click-go="/vn/pokemon-go/com.nianticlabs.pokemongo/download"
-                                        dt-eid="download_button" delegationsource="true"
-                                        dt-params="module_name=download_button&amp;small_position=5" dt-imp-once="true"
-                                        dt-imp-end-ignore="true" dt-send-beacon="true">Tải về</div>
+                                    <div class="name">{{ slider.title }}</div>
+                                    <div class="button">Tải về</div>
                                 </div>
                             </a>
                         </div>
                     </div>
                 </div>
                 <ul class="dots">
-                    <li class="on">1</li>
-                    <li class="">2</li>
-                    <li class="">3</li>
-                    <li class="">4</li>
+                    <li :class="{'on': (currentBanner / step) === index }" v-for="(slider, index) in sliderApp">{{index}}</li>
                 </ul>
-                <div class="prev"></div>
-                <div class="next"></div>
+                <div class="prev" @click="handleSlider(-1)"></div>
+                <div class="next" @click="handleSlider(1)"></div>
             </div>
             <div class="quick-access module no-scrollbar" dt-eid="card"
                 dt-params="model_type=1251&amp;module_name=page_home_button&amp;position=2" dt-clck-ignore="true"
@@ -307,7 +302,7 @@ await getPopulars();
                     onsubmit="onSideSearchSubmit(event)"><span class="text-box"><span class="twitter-typeahead"
                             style="position: relative; display: inline-block;"><input
                                 class="autocomplete main-autocomplete tt-hint" autocomplete="off"
-                                title="Nhập tên ứng dụng, tên gói, ID gói" type="text" readonly="" spellcheck="false"
+                                title="Nhập tên ứng dụng, tên gói, ID gói" type="text" spellcheck="false"
                                 tabindex="-1"
                                 style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"
                                 dir="ltr"><input class="autocomplete main-autocomplete tt-input" autocomplete="off"
@@ -374,10 +369,9 @@ await getPopulars();
                     <h3 class="name">Ứng Dụng Shopping Phổ biến</h3>
                 </a>
                 <div class="apk-list-1001 no-scrollbar enable-wrap">
-                    <a class="apk" :title="shop.title" v-for="shop in shoppings"
-                        :href="shop.title">
-                        <div class="img-ratio"><img :src="shop.icon" class="icon lazy loaded" :alt="shop.title"
-                                width="102" height="102"></div>
+                    <a class="apk" :title="shop.title" v-for="shop in shoppings" :href="shop.title">
+                        <div class="img-ratio"><img :src="shop.icon" class="icon lazy loaded" :alt="shop.title" width="102"
+                                height="102"></div>
                         <div class="name double-lines">{{ shop.title }}</div>
                     </a>
                 </div>
@@ -390,13 +384,11 @@ await getPopulars();
                     <h3 class="name">Trò chơi phổ biến trong 24 giờ trước</h3>
                 </a>
                 <div class="apk-list-1002 no-scrollbar">
-                    <a class="apk" v-for="game in games"
-                        href="/vn/fifa-mobile/com.nexon.fmk" data-dt-app="com.nexon.fmk" dt-eid="app"
-                        dt-params="small_position=1&amp;package_name=com.nexon.fmk" dt-imp-once="true"
+                    <a class="apk" v-for="game in games" href="/vn/fifa-mobile/com.nexon.fmk" data-dt-app="com.nexon.fmk"
+                        dt-eid="app" dt-params="small_position=1&amp;package_name=com.nexon.fmk" dt-imp-once="true"
                         dt-imp-end-ignore="true" dt-send-beacon="true">
                         <div class="img-ratio"><img class="icon lazy loaded" alt=" FIFA MOBILE - (FIFA Chino)  APK"
-                                :src="game.icon"
-                                width="102" height="102"></div>
+                                :src="game.icon" width="102" height="102"></div>
                         <div class="name double-lines">{{ game.title }}</div>
                         <div class="score">{{ game.scoreText }}</div>
                     </a>
@@ -409,17 +401,16 @@ await getPopulars();
                     dt-params="small_position=30" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Ứng dụng phổ biến trong 24 giờ trước</h3>
                 </a>
-                <div class="apk-list-1002 no-scrollbar">    
-                    <a class="apk" v-for="popular in populars"
-                        href="/vn/fifa-mobile/com.nexon.fmk" data-dt-app="com.nexon.fmk" dt-eid="app"
-                        dt-params="small_position=1&amp;package_name=com.nexon.fmk" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true">
+                <div class="apk-list-1002 no-scrollbar">
+                    <a class="apk" v-for="popular in populars" href="/vn/fifa-mobile/com.nexon.fmk"
+                        data-dt-app="com.nexon.fmk" dt-eid="app" dt-params="small_position=1&amp;package_name=com.nexon.fmk"
+                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                         <div class="img-ratio"><img class="icon lazy loaded" alt=" FIFA MOBILE - (FIFA Chino)  APK"
-                            :src="popular.icon"
-                                width="102" height="102"></div>
+                                :src="popular.icon" width="102" height="102"></div>
                         <div class="name double-lines">{{ popular.title }}</div>
                         <div class="score">{{ popular.scoreText }}</div>
-                    </a></div>
+                    </a>
+                </div>
             </div>
             <div class="module popular-articles" dt-eid="card"
                 dt-params="model_type=1254&amp;module_name=popular_articles_24h&amp;position=7" dt-clck-ignore="true"
@@ -431,11 +422,10 @@ await getPopulars();
                 <div class="article-list">
                     <a class="article" href="/vn/howto/how-to-download-ace-racer" v-for="popular in populars"
                         title="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android"
-                            alt="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android"
-                            :src="popular.icon">
-                        <img class="article-banner lazy loaded" :src="popular.icon"/>
+                        alt="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android" :src="popular.icon">
+                        <img class="article-banner lazy loaded" :src="popular.icon" />
                         <div class="text">
-                            <div class="article-title double-lines">{{popular.title}}</div>
+                            <div class="article-title double-lines">{{ popular.title }}</div>
                             <div class="updated one-line">Mar 17, 2023</div>
                         </div>
                     </a>
@@ -444,180 +434,48 @@ await getPopulars();
         </div>
         <div class="right">
             <div class="module editor-choice" dt-eid="card"
-                dt-params="model_type=1255&amp;module_name=editor_choice&amp;position=8" dt-clck-ignore="true"
                 dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
-                    title="Lựa chọn của biên tập viên hàng tuần" href="/vn/editor-choice" dt-eid="more"
-                    dt-params="small_position=44" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+                    title="Lựa chọn của biên tập viên hàng tuần" href="/vn/editor-choice">
                     <h3 class="name">Lựa chọn của biên tập viên hàng tuần</h3>
                 </a>
-                <div class="apk-list-1003 no-scrollbar"><a class="apk" title="FIFA Mobile - (FIFA Soccer) APK"
-                        href="/vn/fifa-mobile/com.ea.gp.fifamobile" data-dt-app="com.ea.gp.fifamobile" data-dt-recid=""
-                        dt-eid="app" dt-params="small_position=1&amp;package_name=com.ea.gp.fifamobile" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true"><img class="banner lazy loaded"
+                <div class="apk-list-1003 no-scrollbar">
+                    <a class="apk" title="FIFA Mobile - (FIFA Soccer) APK" v-for="beauty in beauties"
+                        href="/vn/fifa-mobile/com.ea.gp.fifamobile"><img class="banner lazy loaded"
                             alt="FIFA Mobile - (FIFA Soccer) APK"
                             src="https://image.winudf.com/v2/image1/Y29tLmVhLmdwLmZpZmFtb2JpbGVfYmFubmVyXzE2NDY3OTkyNTJfMDU1/banner.jpg?w=260&amp;fakeurl=1&amp;type=.webp"
-                            data-original="https://image.winudf.com/v2/image1/Y29tLmVhLmdwLmZpZmFtb2JpbGVfYmFubmVyXzE2NDY3OTkyNTJfMDU1/banner.jpg?w=260&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/image1/Y29tLmVhLmdwLmZpZmFtb2JpbGVfYmFubmVyXzE2NDY3OTkyNTJfMDU1/banner.jpg?w=520&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="260" height="134"
-                            srcset="https://image.winudf.com/v2/image1/Y29tLmVhLmdwLmZpZmFtb2JpbGVfYmFubmVyXzE2NDY3OTkyNTJfMDU1/banner.jpg?w=520&amp;fakeurl=1&amp;type=.webp 2x"
-                            data-was-processed="true">
+                            width="260" height="134">
                         <div class="info"><img class="icon lazy loaded" alt="FIFA Mobile - (FIFA Soccer) APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLmVhLmdwLmZpZmFtb2JpbGVfaWNvbl8xNjgxMTg2ODA1XzAxMw/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLmVhLmdwLmZpZmFtb2JpbGVfaWNvbl8xNjgxMTg2ODA1XzAxMw/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLmVhLmdwLmZpZmFtb2JpbGVfaWNvbl8xNjgxMTg2ODA1XzAxMw/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                width="48" height="48"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLmVhLmdwLmZpZmFtb2JpbGVfaWNvbl8xNjgxMTg2ODA1XzAxMw/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                data-was-processed="true">
+                                :src="beauty.icon" width="48" height="48">
                             <div class="text">
-                                <div class="name one-line">FIFA Mobile - (FIFA Soccer)</div>
-                                <div class="desc one-line">EA SPORTS FC™ MOBILE sẽ ra mắt vào ngày 26 tháng 9! Trở thành
-                                    Người sáng lập và kiếm được phần thưởng lớn.</div>
+                                <div class="name one-line">{{ beauty.title }}</div>
+                                <div class="desc one-line">{{ beauty.summary }}</div>
                             </div>
-                            <div class="score">8.0</div>
+                            <div class="score">{{ beauty.scoreText }}</div>
                         </div>
-                    </a><a class="apk" title="PUBG MOBILE LITE APK" href="/vn/pubg-lite-android/com.tencent.iglite"
-                        data-dt-app="com.tencent.iglite" data-dt-recid="" dt-eid="app"
-                        dt-params="small_position=2&amp;package_name=com.tencent.iglite" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true"><img class="banner lazy" alt="PUBG MOBILE LITE APK"
-                            src="data:image/gif;base64,R0lGODlhAQABAPAAAPX19QAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQEAgD/ACwAAAAAAQABAAACAkQBADs="
-                            data-original="https://image.winudf.com/v2/user/admin/YWRtaW5fMTAyNHg1MDAuanBnXzE2NzgyNDYxOTEyOTY/banner.jpg?w=260&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/user/admin/YWRtaW5fMTAyNHg1MDAuanBnXzE2NzgyNDYxOTEyOTY/banner.jpg?w=520&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="260" height="134">
-                        <div class="info"><img class="icon lazy loaded" alt="PUBG MOBILE LITE APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLnRlbmNlbnQuaWdsaXRlX2ljb25fMTY3MTA3NTA0NV8wNDA/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLnRlbmNlbnQuaWdsaXRlX2ljb25fMTY3MTA3NTA0NV8wNDA/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLnRlbmNlbnQuaWdsaXRlX2ljb25fMTY3MTA3NTA0NV8wNDA/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                width="48" height="48"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLnRlbmNlbnQuaWdsaXRlX2ljb25fMTY3MTA3NTA0NV8wNDA/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                data-was-processed="true">
-                            <div class="text">
-                                <div class="name one-line">PUBG MOBILE LITE</div>
-                                <div class="desc one-line"> PUBG MOBILE LITE sử dụng Unreal Engine 4 và xây dựng dựa trên
-                                    lối chơi PUBG MOBILE gốc để tạo ra các trận đấu ở chế độ đấu trường kéo dài từ 10 phút
-                                    trở xuống. </div>
-                            </div>
-                            <div class="score">8.5</div>
-                        </div>
-                    </a><a class="apk" title="Free Fire - Bắn Súng Sinh Tồn APK"
-                        href="/vn/garena-free-fire-android-il/com.dts.freefireth" data-dt-app="com.dts.freefireth"
-                        data-dt-recid="" dt-eid="app" dt-params="small_position=3&amp;package_name=com.dts.freefireth"
-                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><img class="banner lazy"
-                            alt="Free Fire - Bắn Súng Sinh Tồn APK"
-                            src="data:image/gif;base64,R0lGODlhAQABAPAAAPX19QAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQEAgD/ACwAAAAAAQABAAACAkQBADs="
-                            data-original="https://image.winudf.com/v2/image1/Y29tLmR0cy5mcmVlZmlyZXRoX2Jhbm5lcl8xNjU4MzcyNzg4XzA0Mw/banner.jpg?w=260&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/image1/Y29tLmR0cy5mcmVlZmlyZXRoX2Jhbm5lcl8xNjU4MzcyNzg4XzA0Mw/banner.jpg?w=520&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="260" height="134">
-                        <div class="info"><img class="icon lazy loaded" alt="Free Fire - Bắn Súng Sinh Tồn APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLmR0cy5mcmVlZmlyZXRoX2ljb25fMTY5NDQ1NDEzM18wMDU/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLmR0cy5mcmVlZmlyZXRoX2ljb25fMTY5NDQ1NDEzM18wMDU/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLmR0cy5mcmVlZmlyZXRoX2ljb25fMTY5NDQ1NDEzM18wMDU/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                width="48" height="48"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLmR0cy5mcmVlZmlyZXRoX2ljb25fMTY5NDQ1NDEzM18wMDU/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                data-was-processed="true">
-                            <div class="text">
-                                <div class="name one-line">Free Fire - Bắn Súng Sinh Tồn</div>
-                                <div class="desc one-line">Free Fire là một trò chơi Battle Royale với các vòng chơi kéo dài
-                                    30 phút.</div>
-                            </div>
-                            <div class="score">8.6</div>
-                        </div>
-                    </a><a class="apk" title="Hay Day APK" href="/vn/hay-day-android/com.supercell.hayday"
-                        data-dt-app="com.supercell.hayday" data-dt-recid="" dt-eid="app"
-                        dt-params="small_position=4&amp;package_name=com.supercell.hayday" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true"><img class="banner lazy" alt="Hay Day APK"
-                            src="data:image/gif;base64,R0lGODlhAQABAPAAAPX19QAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQEAgD/ACwAAAAAAQABAAACAkQBADs="
-                            data-original="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5oYXlkYXlfYmFubmVyXzE2MTg4Mzc1MzZfMDg5/banner.jpg?w=260&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5oYXlkYXlfYmFubmVyXzE2MTg4Mzc1MzZfMDg5/banner.jpg?w=520&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="260" height="134">
-                        <div class="info"><img class="icon lazy loaded" alt="Hay Day APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5oYXlkYXlfaWNvbl8xNjgwNDQyNjk4XzA4MQ/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5oYXlkYXlfaWNvbl8xNjgwNDQyNjk4XzA4MQ/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5oYXlkYXlfaWNvbl8xNjgwNDQyNjk4XzA4MQ/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                width="48" height="48"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5oYXlkYXlfaWNvbl8xNjgwNDQyNjk4XzA4MQ/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                data-was-processed="true">
-                            <div class="text">
-                                <div class="name one-line">Hay Day</div>
-                                <div class="desc one-line">Tải xuống Hay Day ngay bây giờ và bắt đầu cuộc hành trình của bạn
-                                    để tạo ra trang trại tốt nhất từ ​​trước đến nay!</div>
-                            </div>
-                            <div class="score">8.8</div>
-                        </div>
-                    </a><a class="apk" title="Naruto Senki APK" href="/vn/naruto-senki/re.naruto.game"
-                        data-dt-app="re.naruto.game" data-dt-recid="" dt-eid="app"
-                        dt-params="small_position=5&amp;package_name=re.naruto.game" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true"><img class="banner lazy" alt="Naruto Senki APK"
-                            src="data:image/gif;base64,R0lGODlhAQABAPAAAPX19QAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQEAgD/ACwAAAAAAQABAAACAkQBADs="
-                            data-original="https://image.winudf.com/v2/user/admin/YWRtaW5f5LiL6L29LmpwZWdfMTY4ODM3NzQ1Njg1MA/banner.jpg?w=260&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/user/admin/YWRtaW5f5LiL6L29LmpwZWdfMTY4ODM3NzQ1Njg1MA/banner.jpg?w=520&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="260" height="134">
-                        <div class="info"><img class="icon lazy loaded" alt="Naruto Senki APK"
-                                src="https://image.winudf.com/v2/user/admin/YWRtaW5faWNvbi5wbmdfMTY4ODM3NzQ4NTQ1NQ/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/user/admin/YWRtaW5faWNvbi5wbmdfMTY4ODM3NzQ4NTQ1NQ/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/user/admin/YWRtaW5faWNvbi5wbmdfMTY4ODM3NzQ4NTQ1NQ/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                width="48" height="48"
-                                srcset="https://image.winudf.com/v2/user/admin/YWRtaW5faWNvbi5wbmdfMTY4ODM3NzQ4NTQ1NQ/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                data-was-processed="true">
-                            <div class="text">
-                                <div class="name one-line">Naruto Senki</div>
-                                <div class="desc one-line">Naruto Senki - Reigniting the Flames of Battle</div>
-                            </div>
-                            <div class="score">10.0</div>
-                        </div>
-                    </a><a class="apk" title="Clash of Clans APK"
-                        href="/vn/clash-of-clans-android/com.supercell.clashofclans"
-                        data-dt-app="com.supercell.clashofclans" data-dt-recid="" dt-eid="app"
-                        dt-params="small_position=6&amp;package_name=com.supercell.clashofclans" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true"><img class="banner lazy" alt="Clash of Clans APK"
-                            src="data:image/gif;base64,R0lGODlhAQABAPAAAPX19QAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQEAgD/ACwAAAAAAQABAAACAkQBADs="
-                            data-original="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5jbGFzaG9mY2xhbnNfYmFubmVyXzE2NjU4MzE1MDNfMDY0/banner.jpg?w=260&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5jbGFzaG9mY2xhbnNfYmFubmVyXzE2NjU4MzE1MDNfMDY0/banner.jpg?w=520&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="260" height="134">
-                        <div class="info"><img class="icon lazy loaded" alt="Clash of Clans APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5jbGFzaG9mY2xhbnNfaWNvbl8xNjY1ODMxNTAzXzAyMw/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5jbGFzaG9mY2xhbnNfaWNvbl8xNjY1ODMxNTAzXzAyMw/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5jbGFzaG9mY2xhbnNfaWNvbl8xNjY1ODMxNTAzXzAyMw/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                width="48" height="48"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLnN1cGVyY2VsbC5jbGFzaG9mY2xhbnNfaWNvbl8xNjY1ODMxNTAzXzAyMw/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp"
-                                data-was-processed="true">
-                            <div class="text">
-                                <div class="name one-line">Clash of Clans</div>
-                                <div class="desc one-line">Hãy tham gia cùng hàng triệu người chơi trên khắp thế giới xây
-                                    dựng làng! Tải về Clash of Clans (coc) phiên bản mới nhất.</div>
-                            </div>
-                            <div class="score">9.1</div>
-                        </div>
-                    </a></div>
+                    </a>
+                    </div>
             </div>
         </div>
         <div class="left">
-            <div class="module preregister" dt-eid="card"
-                dt-params="model_type=1256&amp;module_name=pre_registration&amp;position=9" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
-                    title="Trò chơi trước khi đăng ký" href="/vn/pre-register" dt-eid="more" dt-params="small_position=51"
-                    dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                    <h3 class="name">Trò chơi trước khi đăng ký</h3>
+            <div class="module preregister"><a class="title more"
+                    title="Trò chơi trước khi đăng ký" href="/vn/pre-register">
+                    <h3 class="name">Ứng dụng hẹn hò mới</h3>
                 </a>
-                <div class="apk-list-1004 no-scrollbar"><a class="apk"
+                <div class="apk-list-1004 no-scrollbar">
+                    <a class="apk" v-for="date in daties"
                         title="Grand Theft Auto: The Trilogy - The Definitive Edition APK"
-                        href="/vn/grand-theft-auto-the-trilogy-the-definitive-edition/com.gft.thetrilogy"
-                        data-dt-app="com.gft.thetrilogy" dt-eid="app"
-                        dt-params="small_position=1&amp;package_name=com.gft.thetrilogy" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true"><img class="icon lazy loaded"
+                        href="/vn/grand-theft-auto-the-trilogy-the-definitive-edition/com.gft.thetrilogy"><img class="icon lazy loaded"
                             alt="Grand Theft Auto: The Trilogy - The Definitive Edition APK"
-                            src="https://image.winudf.com/v2/user/admin/YWRtaW5fMWNkNTVmODJmZTViMGFkM2RlNjM4OWJiOWUzNTQ3MmJfMzYwLnBuZ18xNjYwMjg1Nzc0MjA3/icon.webp?w=72&amp;fakeurl=1&amp;type=.webp"
-                            data-original="https://image.winudf.com/v2/user/admin/YWRtaW5fMWNkNTVmODJmZTViMGFkM2RlNjM4OWJiOWUzNTQ3MmJfMzYwLnBuZ18xNjYwMjg1Nzc0MjA3/icon.webp?w=72&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/user/admin/YWRtaW5fMWNkNTVmODJmZTViMGFkM2RlNjM4OWJiOWUzNTQ3MmJfMzYwLnBuZ18xNjYwMjg1Nzc0MjA3/icon.webp?w=144&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="68" height="68"
-                            srcset="https://image.winudf.com/v2/user/admin/YWRtaW5fMWNkNTVmODJmZTViMGFkM2RlNjM4OWJiOWUzNTQ3MmJfMzYwLnBuZ18xNjYwMjg1Nzc0MjA3/icon.webp?w=144&amp;fakeurl=1&amp;type=.webp 2x"
-                            data-was-processed="true">
+                            :src="date.icon"
+                            width="68" height="68">
                         <div class="text">
-                            <div class="name one-line">Grand Theft Auto: The Trilogy - The Definitive Edition</div>
-                            <div class="developer one-line">Rockstar Games</div>
-                            <div class="count one-line">Đăng ký trước: 87407</div>
+                            <div class="name one-line">{{ date.title }}</div>
+                            <div class="developer one-line">{{ date.developer }}</div>
+                            <div class="count one-line">Lượt tải: {{ date.installs }}</div>
                         </div>
-                        <div class="button one-line">Đăng ký trước</div>
-                    </a></div>
+                        <div class="button one-line">Tải Ngay</div>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="right">
@@ -628,23 +486,19 @@ await getPopulars();
                     dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Trò chơi đang được bán</h3>
                 </a>
-                <div class="apk-list-1005 no-scrollbar"><a class="apk" title="Samorost 2 APK"
-                        href="/vn/samorost-2/net.amanita_design.Samorost2" data-dt-app="net.amanita_design.Samorost2"
-                        dt-eid="app" dt-params="small_position=1&amp;package_name=net.amanita_design.Samorost2"
-                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><img class="icon lazy loaded"
+                <div class="apk-list-1005 no-scrollbar">
+                    <a class="apk" title="Samorost 2 APK" v-for="gameSelling in gameSellings"
+                        href="/vn/samorost-2/net.amanita_design.Samorost2" data-dt-app="net.amanita_design.Samorost2">
+                        <img class="icon lazy loaded"
                             alt="Samorost 2 APK"
-                            src="https://image.winudf.com/v2/image1/bmV0LmFtYW5pdGFfZGVzaWduLlNhbW9yb3N0Ml9pY29uXzE2MDQ2MzM3NjdfMDE5/icon.webp?w=72&amp;fakeurl=1&amp;type=.webp"
-                            data-original="https://image.winudf.com/v2/image1/bmV0LmFtYW5pdGFfZGVzaWduLlNhbW9yb3N0Ml9pY29uXzE2MDQ2MzM3NjdfMDE5/icon.webp?w=72&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/image1/bmV0LmFtYW5pdGFfZGVzaWduLlNhbW9yb3N0Ml9pY29uXzE2MDQ2MzM3NjdfMDE5/icon.webp?w=144&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="68" height="68"
-                            srcset="https://image.winudf.com/v2/image1/bmV0LmFtYW5pdGFfZGVzaWduLlNhbW9yb3N0Ml9pY29uXzE2MDQ2MzM3NjdfMDE5/icon.webp?w=144&amp;fakeurl=1&amp;type=.webp 2x"
-                            data-was-processed="true">
+                            :src="gameSelling.icon"
+                            width="68" height="68">
                         <div class="text">
-                            <div class="name one-line">Samorost 2</div>
-                            <div class="developer one-line">Amanita Design</div>
+                            <div class="name one-line">{{ gameSelling.title }}</div>
+                            <div class="developer one-line">{{ gameSelling.developer }}</div>
                         </div>
                         <div class="price">
-                            <div class="new">$0.99</div>
+                            <div class="new">{{ gameSelling.currency + gameSelling.price }}</div>
                             <div class="old">$1.99</div>
                         </div>
                     </a></div>
@@ -658,99 +512,19 @@ await getPopulars();
                     dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Trò chơi nổi bật</h3>
                 </a>
-                <div class="apk-list-1006 no-scrollbar"><a class="apk" title="TFT: Teamfight Tactics APK"
-                        href="/vn/tft-tactics/com.riotgames.league.teamfighttactics"
-                        data-dt-app="com.riotgames.league.teamfighttactics" dt-eid="app"
-                        dt-params="small_position=1&amp;package_name=com.riotgames.league.teamfighttactics"
-                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+                <div class="apk-list-1006 no-scrollbar">
+                    <a class="apk" title="TFT: Teamfight Tactics APK"
+                        v-for="gameAdvance in gameAdvances"
+                        href="#">
                         <div class="img-ratio"><img class="icon lazy loaded" alt="TFT: Teamfight Tactics APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLnJpb3RnYW1lcy5sZWFndWUudGVhbWZpZ2h0dGFjdGljc19pY29uXzE2ODY3NDMxNjBfMDkz/icon.webp?w=72&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLnJpb3RnYW1lcy5sZWFndWUudGVhbWZpZ2h0dGFjdGljc19pY29uXzE2ODY3NDMxNjBfMDkz/icon.webp?w=72&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLnJpb3RnYW1lcy5sZWFndWUudGVhbWZpZ2h0dGFjdGljc19pY29uXzE2ODY3NDMxNjBfMDkz/icon.webp?w=144&amp;fakeurl=1&amp;type=.webp 2x"
-                                width="68" height="68"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLnJpb3RnYW1lcy5sZWFndWUudGVhbWZpZ2h0dGFjdGljc19pY29uXzE2ODY3NDMxNjBfMDkz/icon.webp?w=144&amp;fakeurl=1&amp;type=.webp 2x"
-                                data-was-processed="true"></div>
+                                :src="gameAdvance.icon"
+                                width="68" height="68"></div>
                         <div class="text">
-                            <div class="name one-line">TFT: Teamfight Tactics</div>
-                            <div class="category one-line">Chiến thuật</div>
-                            <div class="install-total">4M+</div>
+                            <div class="name one-line">{{ gameAdvance.title }}</div>
+                            <div class="category one-line">{{ gameAdvance.summary }}</div>
+                            <div class="install-total">{{ gameAdvance.maxInstalls }}</div>
                         </div>
                     </a></div>
-            </div>
-            <div class="module hot-apps" dt-eid="card" dt-params="model_type=1259&amp;module_name=hot_apps&amp;position=12"
-                dt-clck-ignore="true" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a
-                    class="title more" title="Ứng dụng nổi bật" href="/vn/app" dt-eid="more" dt-params="small_position=84"
-                    dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                    <h3 class="name">Ứng dụng nổi bật</h3>
-                </a>
-                <div class="apk-list-1006 no-scrollbar"><a class="apk" title="Facebook APK"
-                        href="/vn/facebook/com.facebook.katana" data-dt-app="com.facebook.katana" dt-eid="app"
-                        dt-params="small_position=1&amp;package_name=com.facebook.katana" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <div class="img-ratio"><img class="icon lazy loaded" alt="Facebook APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLmZhY2Vib29rLmthdGFuYV9pY29uXzE1NTc5OTAwMzBfMDIz/icon.webp?w=72&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLmZhY2Vib29rLmthdGFuYV9pY29uXzE1NTc5OTAwMzBfMDIz/icon.webp?w=72&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLmZhY2Vib29rLmthdGFuYV9pY29uXzE1NTc5OTAwMzBfMDIz/icon.webp?w=144&amp;fakeurl=1&amp;type=.webp 2x"
-                                width="68" height="68"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLmZhY2Vib29rLmthdGFuYV9pY29uXzE1NTc5OTAwMzBfMDIz/icon.webp?w=144&amp;fakeurl=1&amp;type=.webp 2x"
-                                data-was-processed="true"></div>
-                        <div class="text">
-                            <div class="name one-line">Facebook</div>
-                            <div class="category one-line">Xã hội</div>
-                            <div class="install-total">100M+</div>
-                        </div>
-                    </a></div>
-            </div>
-            <div class="module latest-update-games" dt-eid="card"
-                dt-params="model_type=1260&amp;module_name=recently_updated_game&amp;position=13" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                <div class="title">
-                    <h3 class="name">Trò chơi vừa mới cập nhật</h3>
-                </div>
-                <div class="apk-list-1008 no-scrollbar"><a class="apk" title="TFT: Teamfight Tactics APK"
-                        href="/vn/tft-tactics/com.riotgames.league.teamfighttactics"
-                        data-dt-app="com.riotgames.league.teamfighttactics" dt-eid="app"
-                        dt-params="small_position=1&amp;package_name=com.riotgames.league.teamfighttactics"
-                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <div class="img-ratio"><img class="icon lazy loaded" alt="TFT: Teamfight Tactics APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLnJpb3RnYW1lcy5sZWFndWUudGVhbWZpZ2h0dGFjdGljc19pY29uXzE2ODY3NDMxNjBfMDkz/icon.webp?w=102&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLnJpb3RnYW1lcy5sZWFndWUudGVhbWZpZ2h0dGFjdGljc19pY29uXzE2ODY3NDMxNjBfMDkz/icon.webp?w=102&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLnJpb3RnYW1lcy5sZWFndWUudGVhbWZpZ2h0dGFjdGljc19pY29uXzE2ODY3NDMxNjBfMDkz/icon.webp?w=204&amp;fakeurl=1&amp;type=.webp 2x"
-                                width="102" height="102"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLnJpb3RnYW1lcy5sZWFndWUudGVhbWZpZ2h0dGFjdGljc19pY29uXzE2ODY3NDMxNjBfMDkz/icon.webp?w=204&amp;fakeurl=1&amp;type=.webp 2x"
-                                data-was-processed="true"></div>
-                        <div class="text">
-                            <div class="name double-lines">TFT: Teamfight Tactics</div>
-                            <div class="category one-line">Chiến thuật</div>
-                            <div class="install-total">13.18.5304653</div>
-                        </div>
-                    </a></div>
-            </div>
-            <div class="module latest-update-apps" dt-eid="card"
-                dt-params="model_type=1261&amp;module_name=recently_updated_apps&amp;position=14" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                <div class="title">
-                    <h3 class="name">Ứng dụng vừa mới cập nhật</h3>
-                </div>
-                <div class="apk-list-1008 no-scrollbar">
-                    <a class="apk" title="Facebook APK" href="/vn/facebook/com.facebook.katana"
-                        data-dt-app="com.facebook.katana" dt-eid="app"
-                        dt-params="small_position=1&amp;package_name=com.facebook.katana" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <div class="img-ratio"><img class="icon lazy loaded" alt="Facebook APK"
-                                src="https://image.winudf.com/v2/image1/Y29tLmZhY2Vib29rLmthdGFuYV9pY29uXzE1NTc5OTAwMzBfMDIz/icon.webp?w=102&amp;fakeurl=1&amp;type=.webp"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLmZhY2Vib29rLmthdGFuYV9pY29uXzE1NTc5OTAwMzBfMDIz/icon.webp?w=102&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLmZhY2Vib29rLmthdGFuYV9pY29uXzE1NTc5OTAwMzBfMDIz/icon.webp?w=204&amp;fakeurl=1&amp;type=.webp 2x"
-                                width="102" height="102"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLmZhY2Vib29rLmthdGFuYV9pY29uXzE1NTc5OTAwMzBfMDIz/icon.webp?w=204&amp;fakeurl=1&amp;type=.webp 2x"
-                                data-was-processed="true"></div>
-                        <div class="text">
-                            <div class="name double-lines">Facebook</div>
-                            <div class="category one-line">Xã hội</div>
-                            <div class="install-total">433.0.0.31.111</div>
-                        </div>
-                    </a>
-                </div>
             </div>
         </div>
         <div class="right">
@@ -761,19 +535,16 @@ await getPopulars();
                     dt-params="small_position=115" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Trò chơi mới hàng đầu</h3>
                 </a>
-                <div class="apk-list-1007 no-scrollbar"><a class="apk" title="3Q Siêu Lầy APK"
+                <div class="apk-list-1007 no-scrollbar">
+                    <a class="apk" title="3Q Siêu Lầy APK" v-for="newGame in newGames"
                         href="/vn/3q-si%C3%AAu-l%E1%BA%A7y/com.shg.sg383" data-dt-app="com.shg.sg383" dt-eid="app"
                         dt-params="small_position=1&amp;package_name=com.shg.sg383" dt-imp-once="true"
                         dt-imp-end-ignore="true" dt-send-beacon="true"><img class="icon lazy loaded" alt="3Q Siêu Lầy APK"
-                            src="https://image.winudf.com/v2/image1/Y29tLnNoZy5zZzM4M19pY29uXzE2OTUyNTA1MzZfMDE3/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                            data-original="https://image.winudf.com/v2/image1/Y29tLnNoZy5zZzM4M19pY29uXzE2OTUyNTA1MzZfMDE3/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/image1/Y29tLnNoZy5zZzM4M19pY29uXzE2OTUyNTA1MzZfMDE3/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="56" height="56"
-                            srcset="https://image.winudf.com/v2/image1/Y29tLnNoZy5zZzM4M19pY29uXzE2OTUyNTA1MzZfMDE3/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp 2x"
-                            data-was-processed="true">
+                            :src="newGame.icon"
+                            width="56" height="56">
                         <div class="text">
-                            <div class="name one-line">3Q Siêu Lầy</div>
-                            <div class="desc one-line">TƯỚNG NHÂY - CHIÊU NGẦU - CẦM ĐẦU THIÊN HẠ</div>
+                            <div class="name one-line">{{ newGame.title }}</div>
+                            <div class="desc one-line">{{ newGame.summary }}</div>
                         </div>
                     </a></div>
             </div>
@@ -785,35 +556,14 @@ await getPopulars();
                     <h3 class="name">Ứng dụng mới hàng đầu</h3>
                 </a>
                 <div class="apk-list-1007 no-scrollbar">
-                    <a class="apk" title="Funhub APK" href="/vn/funhub/net.zfunhub" data-dt-app="net.zfunhub" dt-eid="app"
-                        dt-params="small_position=1&amp;package_name=net.zfunhub" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true"><img class="icon lazy loaded" alt="Funhub APK"
-                            src="https://image.winudf.com/v2/image1/bmV0LnpmdW5odWJfaWNvbl8xNjkzMzIyNDM0XzA2Nw/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                            data-original="https://image.winudf.com/v2/image1/bmV0LnpmdW5odWJfaWNvbl8xNjkzMzIyNDM0XzA2Nw/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/image1/bmV0LnpmdW5odWJfaWNvbl8xNjkzMzIyNDM0XzA2Nw/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="56" height="56"
-                            srcset="https://image.winudf.com/v2/image1/bmV0LnpmdW5odWJfaWNvbl8xNjkzMzIyNDM0XzA2Nw/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp 2x"
-                            data-was-processed="true">
+                    <a class="apk" title="Funhub APK" href="/vn/funhub/net.zfunhub" v-for="newApplication in newApplications">
+                        <img class="icon lazy loaded" alt="Funhub APK"
+                            :src="newApplication.icon"
+                            width="56" height="56">
                         <div class="text">
-                            <div class="name one-line">Funhub</div>
-                            <div class="desc one-line">FunHub - Mạng xã hội giúp bạn tự do chia sẻ đam mê với người khác
+                            <div class="name one-line">{{ newApplication.title }}</div>
+                            <div class="desc one-line">{{ newApplication.summary }}
                             </div>
-                        </div>
-                    </a>
-                    <a class="apk" title="Antivirus-PhoneMaster APK" href="/vn/planet-ajaib/com.duokelike.box"
-                        data-dt-app="com.duokelike.box" dt-eid="app"
-                        dt-params="small_position=2&amp;package_name=com.duokelike.box" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true"><img class="icon lazy loaded"
-                            alt="Antivirus-PhoneMaster APK"
-                            src="https://image.winudf.com/v2/image1/Y29tLmR1b2tlbGlrZS5ib3hfaWNvbl8xNjkzMTQxMjc5XzAyNw/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                            data-original="https://image.winudf.com/v2/image1/Y29tLmR1b2tlbGlrZS5ib3hfaWNvbl8xNjkzMTQxMjc5XzAyNw/icon.webp?w=60&amp;fakeurl=1&amp;type=.webp"
-                            data-srcset="https://image.winudf.com/v2/image1/Y29tLmR1b2tlbGlrZS5ib3hfaWNvbl8xNjkzMTQxMjc5XzAyNw/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp 2x"
-                            width="56" height="56"
-                            srcset="https://image.winudf.com/v2/image1/Y29tLmR1b2tlbGlrZS5ib3hfaWNvbl8xNjkzMTQxMjc5XzAyNw/icon.webp?w=120&amp;fakeurl=1&amp;type=.webp 2x"
-                            data-was-processed="true">
-                        <div class="text">
-                            <div class="name one-line">Antivirus-PhoneMaster</div>
-                            <div class="desc one-line">Dễ sử dụng, phần mềm diệt virus được cung cấp bởi Trustlook</div>
                         </div>
                     </a>
                 </div>
