@@ -61,7 +61,7 @@
                     <ul class="nav_submenu">
                         <li class="nav_submenu-item">
                             <div class="menu_list">
-                                <div class="menu_body">
+                                <div class="menu_body" v-if="categories">
                                     <ul>
                                         <li v-for="category in categories">
                                             <a href="https://apkpure.com/vn/news" class="dt_menu_text"
@@ -127,9 +127,7 @@
                     </ul>
                 </div>
                 <div class="item search">
-                    <form class="formsearch searching-show" method="get" action="https://apkpure.com/vn/search"
-                        onsubmit="onSearchSubmit(event)" data-detail-url-origin="https://apkpure.com"
-                        data-download-url-origin="https://apkpure.com">
+                    <form class="formsearch searching-show" method="get">
                         <div class="search-input">
                             <span class="twitter-typeahead" style="position: relative; display: inline-block;"><input
                                     class="query autocomplete main-autocomplete tt-hint" autocomplete="off"

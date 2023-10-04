@@ -119,7 +119,6 @@
                                     dt-params="small_position=12" dt-imp-once="true" dt-imp-end-ignore="true"
                                     dt-send-beacon="true">
                                     <svg class="svg-align telegram" style="height: 14px; width: 14px;">
-                                        <!-- <use xlink:href="/static/assets/svg/common.stack-47a381bc.svg#icon-twitter-x"></use> -->
                                     </svg>
                                 </button>
                                 <button data-sharer="whatsapp" class="follow-share-whatsapp" dt-eid="whatsapp_button"

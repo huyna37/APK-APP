@@ -34,7 +34,6 @@
                                 dt-params="columns_bottom_button_name=twitte" dt-imp-once="true" dt-imp-end-ignore="true"
                                 dt-send-beacon="true">
                                 <svg class="svg-align telegram" style="height: 16px; width: 16px;">
-                                    <!-- <use xlink:href="/static/assets/svg/common.stack-47a381bc.svg#icon-twitter-x"></use> -->
                                 </svg>
                             </a>
                         </li>

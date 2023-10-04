@@ -33,10 +33,6 @@ export default defineNuxtConfig({
         { rel: 'stylesheet', href: '/css/main-body.css', crossorigin: 'anonymous' },
         { rel: 'stylesheet', href: '/css/apkpure.css', crossorigin: 'anonymous' },
         { rel: 'stylesheet', href: '/css/detail.css', crossorigin: 'anonymous' },
-      ],
-      script: [
-        { src: '/js/main.js', crossorigin: 'anonymous' },
-
       ]
     },
   },
@@ -62,5 +58,5 @@ export default defineNuxtConfig({
     excludedUrls: ['/nocsrf1', ['/nocsrf2/.*', 'i']], // any URLs we want to exclude from CSRF protection
     encryptSecret: "123456789iamasecret987654321look", // only for non serverless runtime, random bytes by default
   },
-  ssr: false
+  ssr: true
 })

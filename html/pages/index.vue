@@ -25,7 +25,6 @@ async function getGameAdvances() {
         }
     });
     gameAdvances = data.result?.data;
-    console.log('shopping', data.result?.data[0])
 }
 
 async function getSliderApp() {
@@ -39,7 +38,6 @@ async function getSliderApp() {
         }
     });
     sliderApp = data.result?.data;
-    console.log('shopping', data.result?.data[0])
 }
 
 async function getShoppings() {
@@ -53,7 +51,6 @@ async function getShoppings() {
         }
     });
     shoppings = data.result?.data;
-    console.log('shopping', data.result?.data[0])
 }
 
 async function getGames() {
@@ -81,7 +78,6 @@ async function getPopulars() {
     });
 
     populars = data.result?.data;
-    console.log('popular', data.result?.data[0])
 }
 
 async function getBeauties() {
@@ -96,7 +92,6 @@ async function getBeauties() {
     });
 
     beauties = data.result?.data;
-    console.log('getBeauties', data.result?.data[0])
 }
 
 async function getDaties() {
@@ -111,7 +106,6 @@ async function getDaties() {
     });
 
     daties = data.result?.data;
-    console.log('getDaties', data.result?.data[0])
 }
 
 async function getGameSellings() {
@@ -126,7 +120,6 @@ async function getGameSellings() {
     });
 
     gameSellings = data.result?.data;
-    console.log('getDaties', data.result?.data[0])
 }
 
 async function getNewGames() {
@@ -141,7 +134,6 @@ async function getNewGames() {
     });
 
     newGames = data.result?.data;
-    console.log('getDaties', data.result?.data[0])
 }
 
 async function getNewApplications() {
@@ -156,7 +148,6 @@ async function getNewApplications() {
     });
 
     newApplications = data.result?.data;
-    console.log('getDaties', data.result?.data[0])
 }
 
 await Promise.all([getShoppings(), getGames(), getPopulars(), getBeauties(), getDaties(), getNewGames(), getGameSellings(), getNewApplications()]);
@@ -197,7 +188,7 @@ setInterval(() => handleSlider(1), 5000);
             <div id="top-slide-banner" class="slide-banner">
                 <div class="container">
                     <div class="tempWrap" style="overflow:hidden; position:relative;">
-                        <div class="list"
+                        <div class="list" v-if="sliderApp"
                             :style="{
                                 width: '5208px',
                                 position: 'relative',
@@ -273,10 +264,7 @@ setInterval(() => handleSlider(1), 5000);
                                 </clipPath>
                             </defs>
                         </svg>
-                    </i>Ứng dụng</a><a title="Tin tức" href="https://apkpure.com/vn/news" data-dt-name="Tin tức"
-                    dt-eid="button"
-                    dt-params="small_position=3&amp;button_name=%0A%0A%0A%0A%0A%0A%0A%0A%0A%0A%0ATin%20t%E1%BB%A9c"
-                    dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><i class="icon"><svg width="23"
+                    </i>Ứng dụng</a><a title="Tin tức" href="https://apkpure.com/vn/news"><i class="icon"><svg width="23"
                             height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_179_1236)">
                                 <path
@@ -295,9 +283,7 @@ setInterval(() => handleSlider(1), 5000);
                     </i>Tin tức</a></div>
         </div>
         <div class="right">
-            <div class="search-box index_r_s" dt-eid="card"
-                dt-params="model_type=1264&amp;module_name=search_box&amp;position=1" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+            <div class="search-box index_r_s">
                 <form action="https://apkpure.com/vn/search" data-x_ll="/vn" method="get" class="formsearch"
                     onsubmit="onSideSearchSubmit(event)"><span class="text-box"><span class="twitter-typeahead"
                             style="position: relative; display: inline-block;"><input
@@ -305,9 +291,8 @@ setInterval(() => handleSlider(1), 5000);
                                 title="Nhập tên ứng dụng, tên gói, ID gói" type="text" spellcheck="false"
                                 tabindex="-1"
                                 style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"
-                                dir="ltr"><input class="autocomplete main-autocomplete tt-input" autocomplete="off"
+                                ><input class="autocomplete main-autocomplete tt-input" autocomplete="off"
                                 title="Nhập tên ứng dụng, tên gói, ID gói" name="q" type="text" placeholder="APKPure"
-                                spellcheck="false"
                                 style="position: relative; vertical-align: top; background-color: transparent;">
                             <pre aria-hidden="true"
                                 style="position: absolute; visibility: hidden; white-space: pre; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre>
@@ -322,12 +307,9 @@ setInterval(() => handleSlider(1), 5000);
                 <div class="trending-content"><a href="https://apkpure.com/vn/search?q=minecraft%20&amp;ici=hot_index"
                         title="minecraft " class="hot">minecraft </a></div>
             </div>
-            <div class="aegon module right_apkpure" dt-eid="card"
-                dt-params="model_type=1032&amp;module_name=apkpure_app&amp;position=3" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a
+            <div class="aegon module right_apkpure"><a
                     href="/vn/apkpure/com.apkpure.aegon/download/3194527-apk?utm_content=1006&amp;icn=aegon&amp;ici=text_home-m&amp;from=text_home-m?icn=aegon&amp;ici=text_home-m&amp;utm_content=1033"
                     title="Use APKPure App" rel="noopener" target="_blank" dt-eid="download_button"
-                    dt-params="module_name=download_button&amp;small_position=1" dt-imp-once="true" dt-imp-end-ignore="true"
                     dt-send-beacon="true"><img class="icon" alt="Use APKPure App"
                         src="https://image.winudf.com/v2/upload/images/icon.png/image.webp?fakeurl=1&amp;w=90&amp;type=.webp"
                         width="40" height="40">
@@ -349,7 +331,6 @@ setInterval(() => handleSlider(1), 5000);
                         dt-params="small_position=7&amp;name=Telegram" dt-imp-once="true" dt-imp-end-ignore="true"
                         dt-send-beacon="true"><span>Telegram</span></a><a href="https://www.facebook.com/apkpure"
                         title="Facebook" class="network fb" rel="nofollow noopener" target="_blank" dt-eid="share"
-                        dt-params="small_position=8&amp;name=Facebook" dt-imp-once="true" dt-imp-end-ignore="true"
                         dt-send-beacon="true"><span>Facebook</span></a><a href="https://twitter.com/apkpure"
                         title="Twitter X" class="network tw" rel="nofollow noopener" target="_blank" dt-eid="share"
                         dt-params="small_position=9&amp;name=Twitter%20X" dt-imp-once="true" dt-imp-end-ignore="true"
@@ -362,13 +343,12 @@ setInterval(() => handleSlider(1), 5000);
         </div>
         <div class="left">
             <div class="module discover" dt-eid="card"
-                dt-params="model_type=1016&amp;module_name=discover_new&amp;position=4" dt-clck-ignore="true"
                 dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more" title="Phát hiện"
                     href="/vn/discover" dt-eid="more" dt-params="small_position=12" dt-imp-once="true"
                     dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Ứng Dụng Shopping Phổ biến</h3>
                 </a>
-                <div class="apk-list-1001 no-scrollbar enable-wrap">
+                <div class="apk-list-1001 no-scrollbar enable-wrap" v-if="shoppings">
                     <a class="apk" :title="shop.title" v-for="shop in shoppings" :href="shop.title">
                         <div class="img-ratio"><img :src="shop.icon" class="icon lazy loaded" :alt="shop.title" width="102"
                                 height="102"></div>
@@ -376,14 +356,12 @@ setInterval(() => handleSlider(1), 5000);
                     </a>
                 </div>
             </div>
-            <div class="module popular-games" dt-eid="card"
-                dt-params="model_type=1252&amp;module_name=popular_games_24h&amp;position=5" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
+            <div class="module popular-games" ><a class="title more"
                     title="Trò chơi phổ biến trong 24 giờ trước" href="/vn/game-24h" dt-eid="more"
                     dt-params="small_position=21" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Trò chơi phổ biến trong 24 giờ trước</h3>
                 </a>
-                <div class="apk-list-1002 no-scrollbar">
+                <div class="apk-list-1002 no-scrollbar" v-if="games">
                     <a class="apk" v-for="game in games" href="/vn/fifa-mobile/com.nexon.fmk" data-dt-app="com.nexon.fmk"
                         dt-eid="app" dt-params="small_position=1&amp;package_name=com.nexon.fmk" dt-imp-once="true"
                         dt-imp-end-ignore="true" dt-send-beacon="true">
@@ -394,14 +372,12 @@ setInterval(() => handleSlider(1), 5000);
                     </a>
                 </div>
             </div>
-            <div class="module popular-apps" dt-eid="card"
-                dt-params="model_type=1253&amp;module_name=popular_apps_24h&amp;position=6" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
+            <div class="module popular-apps" ><a class="title more"
                     title="Ứng dụng phổ biến trong 24 giờ trước" href="/vn/app-24h" dt-eid="more"
                     dt-params="small_position=30" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Ứng dụng phổ biến trong 24 giờ trước</h3>
                 </a>
-                <div class="apk-list-1002 no-scrollbar">
+                <div class="apk-list-1002 no-scrollbar" v-if="populars">
                     <a class="apk" v-for="popular in populars" href="/vn/fifa-mobile/com.nexon.fmk"
                         data-dt-app="com.nexon.fmk" dt-eid="app" dt-params="small_position=1&amp;package_name=com.nexon.fmk"
                         dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
@@ -412,14 +388,12 @@ setInterval(() => handleSlider(1), 5000);
                     </a>
                 </div>
             </div>
-            <div class="module popular-articles" dt-eid="card"
-                dt-params="model_type=1254&amp;module_name=popular_articles_24h&amp;position=7" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
+            <div class="module popular-articles" ><a class="title more"
                     title="Các bài báo phổ biến trong 24 giờ qua"
                     href="https://apkpure.com/vn/search?q=popular_article&amp;sat=articles&amp;ao=most&amp;at=home_recommend">
                     <h3 class="name">Các bài báo phổ biến trong 24 giờ qua</h3>
                 </a>
-                <div class="article-list">
+                <div class="article-list" v-if="populars">
                     <a class="article" href="/vn/howto/how-to-download-ace-racer" v-for="popular in populars"
                         title="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android"
                         alt="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android" :src="popular.icon">
@@ -438,7 +412,7 @@ setInterval(() => handleSlider(1), 5000);
                     title="Lựa chọn của biên tập viên hàng tuần" href="/vn/editor-choice">
                     <h3 class="name">Lựa chọn của biên tập viên hàng tuần</h3>
                 </a>
-                <div class="apk-list-1003 no-scrollbar">
+                <div class="apk-list-1003 no-scrollbar" v-if="beauties">
                     <a class="apk" title="FIFA Mobile - (FIFA Soccer) APK" v-for="beauty in beauties"
                         href="/vn/fifa-mobile/com.ea.gp.fifamobile"><img class="banner lazy loaded"
                             alt="FIFA Mobile - (FIFA Soccer) APK"
@@ -461,7 +435,7 @@ setInterval(() => handleSlider(1), 5000);
                     title="Trò chơi trước khi đăng ký" href="/vn/pre-register">
                     <h3 class="name">Ứng dụng hẹn hò mới</h3>
                 </a>
-                <div class="apk-list-1004 no-scrollbar">
+                <div class="apk-list-1004 no-scrollbar" v-if="daties">
                     <a class="apk" v-for="date in daties"
                         title="Grand Theft Auto: The Trilogy - The Definitive Edition APK"
                         href="/vn/grand-theft-auto-the-trilogy-the-definitive-edition/com.gft.thetrilogy"><img class="icon lazy loaded"
@@ -486,7 +460,7 @@ setInterval(() => handleSlider(1), 5000);
                     dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Trò chơi đang được bán</h3>
                 </a>
-                <div class="apk-list-1005 no-scrollbar">
+                <div class="apk-list-1005 no-scrollbar" v-if="gameSellings">
                     <a class="apk" title="Samorost 2 APK" v-for="gameSelling in gameSellings"
                         href="/vn/samorost-2/net.amanita_design.Samorost2" data-dt-app="net.amanita_design.Samorost2">
                         <img class="icon lazy loaded"
@@ -512,7 +486,7 @@ setInterval(() => handleSlider(1), 5000);
                     dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Trò chơi nổi bật</h3>
                 </a>
-                <div class="apk-list-1006 no-scrollbar">
+                <div class="apk-list-1006 no-scrollbar" v-if="gameAdvances">
                     <a class="apk" title="TFT: Teamfight Tactics APK"
                         v-for="gameAdvance in gameAdvances"
                         href="#">
@@ -535,7 +509,7 @@ setInterval(() => handleSlider(1), 5000);
                     dt-params="small_position=115" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Trò chơi mới hàng đầu</h3>
                 </a>
-                <div class="apk-list-1007 no-scrollbar">
+                <div class="apk-list-1007 no-scrollbar" v-if="newGames">
                     <a class="apk" title="3Q Siêu Lầy APK" v-for="newGame in newGames"
                         href="/vn/3q-si%C3%AAu-l%E1%BA%A7y/com.shg.sg383" data-dt-app="com.shg.sg383" dt-eid="app"
                         dt-params="small_position=1&amp;package_name=com.shg.sg383" dt-imp-once="true"
@@ -555,7 +529,7 @@ setInterval(() => handleSlider(1), 5000);
                     dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Ứng dụng mới hàng đầu</h3>
                 </a>
-                <div class="apk-list-1007 no-scrollbar">
+                <div class="apk-list-1007 no-scrollbar" v-if="newApplications">
                     <a class="apk" title="Funhub APK" href="/vn/funhub/net.zfunhub" v-for="newApplication in newApplications">
                         <img class="icon lazy loaded" alt="Funhub APK"
                             :src="newApplication.icon"
