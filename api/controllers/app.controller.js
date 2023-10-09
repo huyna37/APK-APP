@@ -25,17 +25,17 @@ const migrateAppData = async (appId) => {
       num: 50,
     });
 
-    if(review && review.results?.data) {
+    if (review && review.results?.data) {
       review.appId = newApp.id;
       const reviewsWithAppId = review.results?.data?.map(reviewItem => ({
         ...reviewItem,
         appId: newApp.id,
       }));
-  
+
       // Use insertMany to insert all reviews at once
       await ReviewModel.insertMany(reviewsWithAppId);
     }
-   
+
     const similar = await GPlayService.GetBySimilar({ appId: detail?.appId });
     if (similar?.results?.length > 0) {
       const similarsWithAppId = similar?.results?.map(similarItem => ({
@@ -82,7 +82,7 @@ exports.migrateData = async (req, res) => {
         };
 
         const listApp = await GPlayService.GetListApp(query);
-        if(!listApp?.results) continue;
+        if (!listApp?.results) continue;
         for (const appResult of listApp.results) {
           await migrateAppData(appResult?.appId);
         }
@@ -114,6 +114,50 @@ exports.getListCategory = async (req, res) => {
     });
   }
 }
+
+exports.updateSimilarData = async (req, res) => {
+  try {
+    const limit = 200;
+    const total = await SimilarModel.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+
+    for (let page = 1; page <= totalPages; page++) {
+      const list = await SimilarModel.find()
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+      const updatePromises = list.map(async (similar) => {
+        const app = await AppModel.findOne({ icon: similar.icon });
+
+        if (app) {
+          return SimilarModel.updateOne(
+            { _id: similar._id }, // Specify the document to update
+            {
+              $set: {
+                id: similar._id,
+                title: app.title,
+                updated: app.updated,
+                version: app.version,
+                parentAppId: app._id,
+              },
+            }
+          );
+        }
+      });
+
+      await Promise.all(updatePromises);
+    }
+
+    res.status(200).json({ status: true });
+  } catch (err) {
+    console.error("Error updateSimilarData data:", err);
+    res.status(500).json({
+      status: false,
+      error: err.message,
+    });
+  }
+};
+
 
 function GetListCategory() {
   return Object.keys(gplay.category);

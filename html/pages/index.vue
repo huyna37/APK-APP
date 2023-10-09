@@ -56,12 +56,12 @@ async function getShoppings() {
 async function getGames() {
     let data = await $customFetch(`/home`, {
         params: {
-        page: 1,
-        limit: 20,
-        sortField: 'views',
-        sortOrder: 'desc',
-        filterOptions: JSON.stringify({ "genreId": category.GAME_ACTION })
-    }
+            page: 1,
+            limit: 20,
+            sortField: 'views',
+            sortOrder: 'desc',
+            filterOptions: JSON.stringify({ "genreId": category.GAME_ACTION })
+        }
     });
     games = data.result?.data;
 }
@@ -143,7 +143,7 @@ async function getNewApplications() {
             limit: 10,
             sortField: 'released',
             sortOrder: 'desc',
-            filterOptions: JSON.stringify({ "genreId": category.ART_AND_DESIGN})
+            filterOptions: JSON.stringify({ "genreId": category.ART_AND_DESIGN })
         }
     });
 
@@ -159,17 +159,17 @@ const step = -868;
 
 function handleSlider(num: Number) {
     const maxSlider = (sliderApp.length - 1) * step;
-    
-    if(num == 1) {
-        if(currentBanner.value == maxSlider) {
+
+    if (num == 1) {
+        if (currentBanner.value == maxSlider) {
             currentBanner.value = 0;
-        } 
+        }
         else {
             currentBanner.value += step;
         }
     }
     else {
-        if(currentBanner.value == 0) {
+        if (currentBanner.value == 0) {
             currentBanner.value = maxSlider;
         }
         else {
@@ -180,6 +180,22 @@ function handleSlider(num: Number) {
 
 setInterval(() => handleSlider(1), 5000);
 
+function generateUrl(title: string, id: string) {
+    const regex = /^([^:]+):\s(.+)$/;
+    const match = regex.exec(title);
+
+    if (match) {
+        // Trích xuất hai phần từ kết quả của regex
+        const part1 = match[1];
+        const part2 = match[2];
+
+        // Thay thế dấu ":" bằng dấu "-"
+        const result = (part1 + "-" + part2).replace(/\s/g, '-') + `?itm=${id}`;
+
+        return result
+    }
+    return '';
+}
 </script>
 
 <template>
@@ -188,44 +204,41 @@ setInterval(() => handleSlider(1), 5000);
             <div id="top-slide-banner" class="slide-banner">
                 <div class="container">
                     <div class="tempWrap" style="overflow:hidden; position:relative;">
-                        <div class="list" v-if="sliderApp"
-                            :style="{
-                                width: '5208px',
-                                position: 'relative',
-                                overflow: 'hidden',
-                                padding: '0px',
-                                margin: '0px',
-                                transitionDuration: '200ms',
-                                transform: `translate(${currentBanner}px, 0px) translateZ(0px)`
-                                }">
-                            <a :title="slider.title" class="banner-item"
-                                v-for="slider in sliderApp"
-                                href="#"
+                        <div class="list" v-if="sliderApp" :style="{
+                            width: '5208px',
+                            position: 'relative',
+                            overflow: 'hidden',
+                            padding: '0px',
+                            margin: '0px',
+                            transitionDuration: '200ms',
+                            transform: `translate(${currentBanner}px, 0px) translateZ(0px)`
+                        }">
+                            <NuxtLink :title="slider.title" class="banner-item" v-for="slider in sliderApp" :to="generateUrl(slider.title, slider.appId)"
                                 style="display: table-cell; vertical-align: top; width: 868px;"><img
-                                    class="banner-bg lazy loaded" :alt="slider.title"
-                                    :src="slider.icon"
+                                    class="banner-bg lazy loaded" :alt="slider.title" :src="slider.icon"
                                     sizes="(max-width: 996px) 100vw, 868px" width="360" height="170"
                                     data-was-processed="true">
                                 <div class="mask"></div>
-                                <div class="info"><img class="icon lazy" :alt="slider.title"
-                                        :src="slider.icon"
-                                        width="32" height="32">
+                                <div class="info"><img class="icon lazy" :alt="slider.title" :src="slider.icon" width="32"
+                                        height="32">
                                     <div class="name">{{ slider.title }}</div>
                                     <div class="button">Tải về</div>
                                 </div>
-                            </a>
+                            </NuxtLink >
                         </div>
                     </div>
                 </div>
                 <ul class="dots">
-                    <li :class="{'on': (currentBanner / step) === index }" v-for="(slider, index) in sliderApp">{{index}}</li>
+                    <li :class="{ 'on': (currentBanner / step) === index }" v-for="(slider, index) in sliderApp">{{ index }}
+                    </li>
                 </ul>
                 <div class="prev" @click="handleSlider(-1)"></div>
                 <div class="next" @click="handleSlider(1)"></div>
             </div>
             <div class="quick-access module no-scrollbar" dt-eid="card"
                 dt-params="model_type=1251&amp;module_name=page_home_button&amp;position=2" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a title="Trò chơi" href="/vn/game"
+                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+                <a title="Trò chơi" href="/vn/game"
                     data-dt-name="games" dt-eid="games" dt-params="small_position=1" dt-imp-once="true"
                     dt-imp-end-ignore="true" dt-send-beacon="true"><i class="icon"><svg width="22" height="22"
                             viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -243,7 +256,8 @@ setInterval(() => handleSlider(1), 5000);
                                 </clipPath>
                             </defs>
                         </svg>
-                    </i>Trò chơi</a><a title="Ứng dụng" href="/vn/app" data-dt-name="apps" dt-eid="apps"
+                    </i>Trò chơi</a>
+                    <a title="Ứng dụng" href="/vn/app" data-dt-name="apps" dt-eid="apps"
                     dt-params="small_position=2" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><i
                         class="icon"><svg width="23" height="22" viewBox="0 0 23 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -264,7 +278,8 @@ setInterval(() => handleSlider(1), 5000);
                                 </clipPath>
                             </defs>
                         </svg>
-                    </i>Ứng dụng</a><a title="Tin tức" href="https://apkpure.com/vn/news"><i class="icon"><svg width="23"
+                    </i>Ứng dụng</a>
+                    <a title="Tin tức" href="https://apkpure.com/vn/news"><i class="icon"><svg width="23"
                             height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_179_1236)">
                                 <path
@@ -280,7 +295,8 @@ setInterval(() => handleSlider(1), 5000);
                                 </clipPath>
                             </defs>
                         </svg>
-                    </i>Tin tức</a></div>
+                    </i>Tin tức</a>
+                </div>
         </div>
         <div class="right">
             <div class="search-box index_r_s">
@@ -288,10 +304,9 @@ setInterval(() => handleSlider(1), 5000);
                     onsubmit="onSideSearchSubmit(event)"><span class="text-box"><span class="twitter-typeahead"
                             style="position: relative; display: inline-block;"><input
                                 class="autocomplete main-autocomplete tt-hint" autocomplete="off"
-                                title="Nhập tên ứng dụng, tên gói, ID gói" type="text" spellcheck="false"
-                                tabindex="-1"
-                                style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"
-                                ><input class="autocomplete main-autocomplete tt-input" autocomplete="off"
+                                title="Nhập tên ứng dụng, tên gói, ID gói" type="text" spellcheck="false" tabindex="-1"
+                                style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"><input
+                                class="autocomplete main-autocomplete tt-input" autocomplete="off"
                                 title="Nhập tên ứng dụng, tên gói, ID gói" name="q" type="text" placeholder="APKPure"
                                 style="position: relative; vertical-align: top; background-color: transparent;">
                             <pre aria-hidden="true"
@@ -328,7 +343,6 @@ setInterval(() => handleSlider(1), 5000);
                     dt-send-beacon="true">Cách để cài tệp XAPK / APK</a>
                 <div class="social-network"><a href="https://t.me/apkpurechannel" title="Telegram" class="network telegram"
                         rel="nofollow noopener" target="_blank" dt-eid="share"
-                        dt-params="small_position=7&amp;name=Telegram" dt-imp-once="true" dt-imp-end-ignore="true"
                         dt-send-beacon="true"><span>Telegram</span></a><a href="https://www.facebook.com/apkpure"
                         title="Facebook" class="network fb" rel="nofollow noopener" target="_blank" dt-eid="share"
                         dt-send-beacon="true"><span>Facebook</span></a><a href="https://twitter.com/apkpure"
@@ -342,83 +356,73 @@ setInterval(() => handleSlider(1), 5000);
             </div>
         </div>
         <div class="left">
-            <div class="module discover" dt-eid="card"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more" title="Phát hiện"
-                    href="/vn/discover" dt-eid="more" dt-params="small_position=12" dt-imp-once="true"
-                    dt-imp-end-ignore="true" dt-send-beacon="true">
+            <div class="module discover" dt-eid="card"><NuxtLink 
+                class="title more" title="Phát hiện" to="/vn/discover">
                     <h3 class="name">Ứng Dụng Shopping Phổ biến</h3>
-                </a>
+                </NuxtLink>
                 <div class="apk-list-1001 no-scrollbar enable-wrap" v-if="shoppings">
-                    <a class="apk" :title="shop.title" v-for="shop in shoppings" :href="shop.title">
+                    <NuxtLink class="apk" :title="shop.title" v-for="shop in shoppings" :to="generateUrl(shop.title, shop.appId)">
                         <div class="img-ratio"><img :src="shop.icon" class="icon lazy loaded" :alt="shop.title" width="102"
                                 height="102"></div>
                         <div class="name double-lines">{{ shop.title }}</div>
-                    </a>
+                    </NuxtLink>
                 </div>
             </div>
-            <div class="module popular-games" ><a class="title more"
-                    title="Trò chơi phổ biến trong 24 giờ trước" href="/vn/game-24h" dt-eid="more"
-                    dt-params="small_position=21" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+            <div class="module popular-games"><NuxtLink class="title more" title="Trò chơi phổ biến trong 24 giờ trước"
+                    to="/vn/game-24h" dt-eid="more" dt-params="small_position=21" dt-imp-once="true"
+                    dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Trò chơi phổ biến trong 24 giờ trước</h3>
-                </a>
+                </NuxtLink>
                 <div class="apk-list-1002 no-scrollbar" v-if="games">
-                    <a class="apk" v-for="game in games" href="/vn/fifa-mobile/com.nexon.fmk" data-dt-app="com.nexon.fmk"
-                        dt-eid="app" dt-params="small_position=1&amp;package_name=com.nexon.fmk" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <div class="img-ratio"><img class="icon lazy loaded" alt=" FIFA MOBILE - (FIFA Chino)  APK"
+                    <NuxtLink class="apk" v-for="game in games" :to="generateUrl(game.title, game.appId)">
+                        <div class="img-ratio"><img class="icon lazy loaded" :alt="game.title"
                                 :src="game.icon" width="102" height="102"></div>
                         <div class="name double-lines">{{ game.title }}</div>
                         <div class="score">{{ game.scoreText }}</div>
-                    </a>
+                    </NuxtLink>
                 </div>
             </div>
-            <div class="module popular-apps" ><a class="title more"
-                    title="Ứng dụng phổ biến trong 24 giờ trước" href="/vn/app-24h" dt-eid="more"
-                    dt-params="small_position=30" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+            <div class="module popular-apps">
+                <NuxtLink class="title more"
+                    to="/vn/app-24h">
                     <h3 class="name">Ứng dụng phổ biến trong 24 giờ trước</h3>
-                </a>
+                </NuxtLink>
                 <div class="apk-list-1002 no-scrollbar" v-if="populars">
-                    <a class="apk" v-for="popular in populars" href="/vn/fifa-mobile/com.nexon.fmk"
-                        data-dt-app="com.nexon.fmk" dt-eid="app" dt-params="small_position=1&amp;package_name=com.nexon.fmk"
-                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <div class="img-ratio"><img class="icon lazy loaded" alt=" FIFA MOBILE - (FIFA Chino)  APK"
+                    <NuxtLink class="apk" v-for="popular in populars" :to="generateUrl(popular.title, popular.appId)">
+                        <div class="img-ratio"><img class="icon lazy loaded" :alt="popular.title"
                                 :src="popular.icon" width="102" height="102"></div>
                         <div class="name double-lines">{{ popular.title }}</div>
                         <div class="score">{{ popular.scoreText }}</div>
-                    </a>
+                    </NuxtLink>
                 </div>
             </div>
-            <div class="module popular-articles" ><a class="title more"
-                    title="Các bài báo phổ biến trong 24 giờ qua"
+            <div class="module popular-articles"><a class="title more" title="Các bài báo phổ biến trong 24 giờ qua"
                     href="https://apkpure.com/vn/search?q=popular_article&amp;sat=articles&amp;ao=most&amp;at=home_recommend">
                     <h3 class="name">Các bài báo phổ biến trong 24 giờ qua</h3>
                 </a>
                 <div class="article-list" v-if="populars">
-                    <a class="article" href="/vn/howto/how-to-download-ace-racer" v-for="popular in populars"
-                        title="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android"
-                        alt="Cách Tải Và Chơi Game Ace Racer Trên IOS, Android" :src="popular.icon">
+                    <NuxtLink class="article" :to="generateUrl(popular.title, popular.appId)" v-for="popular in populars" :src="popular.icon">
                         <img class="article-banner lazy loaded" :src="popular.icon" />
                         <div class="text">
                             <div class="article-title double-lines">{{ popular.title }}</div>
                             <div class="updated one-line">Mar 17, 2023</div>
                         </div>
-                    </a>
+                    </NuxtLink>
                 </div>
             </div>
         </div>
         <div class="right">
-            <div class="module editor-choice" dt-eid="card"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
-                    title="Lựa chọn của biên tập viên hàng tuần" href="/vn/editor-choice">
+            <div class="module editor-choice"><NuxtLink class="title more" title="Lựa chọn của biên tập viên hàng tuần"
+                    to="/vn/editor-choice">
                     <h3 class="name">Lựa chọn của biên tập viên hàng tuần</h3>
-                </a>
+                </NuxtLink>
                 <div class="apk-list-1003 no-scrollbar" v-if="beauties">
-                    <a class="apk" title="FIFA Mobile - (FIFA Soccer) APK" v-for="beauty in beauties"
-                        href="/vn/fifa-mobile/com.ea.gp.fifamobile"><img class="banner lazy loaded"
-                            alt="FIFA Mobile - (FIFA Soccer) APK"
-                            src="https://image.winudf.com/v2/image1/Y29tLmVhLmdwLmZpZmFtb2JpbGVfYmFubmVyXzE2NDY3OTkyNTJfMDU1/banner.jpg?w=260&amp;fakeurl=1&amp;type=.webp"
+                    <NuxtLink class="apk" v-for="beauty in beauties" 
+                    :to="generateUrl(beauty.title, beauty.appId)"><img class="banner lazy loaded"
+                            :alt="beauty.title"
+                            :src="beauty.videoImage"
                             width="260" height="134">
-                        <div class="info"><img class="icon lazy loaded" alt="FIFA Mobile - (FIFA Soccer) APK"
+                        <div class="info"><img class="icon lazy loaded"
                                 :src="beauty.icon" width="48" height="48">
                             <div class="text">
                                 <div class="name one-line">{{ beauty.title }}</div>
@@ -426,47 +430,39 @@ setInterval(() => handleSlider(1), 5000);
                             </div>
                             <div class="score">{{ beauty.scoreText }}</div>
                         </div>
-                    </a>
-                    </div>
+                    </NuxtLink>
+                </div>
             </div>
         </div>
         <div class="left">
-            <div class="module preregister"><a class="title more"
-                    title="Trò chơi trước khi đăng ký" href="/vn/pre-register">
+            <div class="module preregister">
+                <NuxtLink class="title more" title="Trò chơi trước khi đăng ký"
+                    to="/vn/pre-register">
                     <h3 class="name">Ứng dụng hẹn hò mới</h3>
-                </a>
+                </NuxtLink>
                 <div class="apk-list-1004 no-scrollbar" v-if="daties">
-                    <a class="apk" v-for="date in daties"
-                        title="Grand Theft Auto: The Trilogy - The Definitive Edition APK"
-                        href="/vn/grand-theft-auto-the-trilogy-the-definitive-edition/com.gft.thetrilogy"><img class="icon lazy loaded"
-                            alt="Grand Theft Auto: The Trilogy - The Definitive Edition APK"
-                            :src="date.icon"
-                            width="68" height="68">
+                    <NuxtLink class="apk" v-for="date in daties" :to="generateUrl(date.title, date.appId)"><img
+                            class="icon lazy loaded" :alt="date.title"
+                            :src="date.icon" width="68" height="68">
                         <div class="text">
                             <div class="name one-line">{{ date.title }}</div>
                             <div class="developer one-line">{{ date.developer }}</div>
                             <div class="count one-line">Lượt tải: {{ date.installs }}</div>
                         </div>
                         <div class="button one-line">Tải Ngay</div>
-                    </a>
+                    </NuxtLink>
                 </div>
             </div>
         </div>
         <div class="right">
-            <div class="module game-on-sale" dt-eid="card"
-                dt-params="model_type=1257&amp;module_name=game_on_sales&amp;position=10" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
-                    title="Trò chơi đang được bán" href="/vn/game-sales" dt-eid="more" dt-params="small_position=61"
-                    dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+            <div class="module game-on-sale">
+                <NuxtLink class="title more" to="/vn/game-sales">
                     <h3 class="name">Trò chơi đang được bán</h3>
-                </a>
+                </NuxtLink>
                 <div class="apk-list-1005 no-scrollbar" v-if="gameSellings">
-                    <a class="apk" title="Samorost 2 APK" v-for="gameSelling in gameSellings"
-                        href="/vn/samorost-2/net.amanita_design.Samorost2" data-dt-app="net.amanita_design.Samorost2">
-                        <img class="icon lazy loaded"
-                            alt="Samorost 2 APK"
-                            :src="gameSelling.icon"
-                            width="68" height="68">
+                    <NuxtLink class="apk" v-for="gameSelling in gameSellings"
+                        :to="generateUrl(gameSelling.title, gameSelling.appId)">
+                        <img class="icon lazy loaded" :alt="gameSelling.title" :src="gameSelling.icon" width="68" height="68">
                         <div class="text">
                             <div class="name one-line">{{ gameSelling.title }}</div>
                             <div class="developer one-line">{{ gameSelling.developer }}</div>
@@ -475,65 +471,53 @@ setInterval(() => handleSlider(1), 5000);
                             <div class="new">{{ gameSelling.currency + gameSelling.price }}</div>
                             <div class="old">$1.99</div>
                         </div>
-                    </a></div>
+                    </NuxtLink>
+                </div>
             </div>
         </div>
         <div class="left">
-            <div class="module hot-games" dt-eid="card"
-                dt-params="model_type=1258&amp;module_name=hot_games&amp;position=11" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
-                    title="Trò chơi nổi bật" href="/vn/game" dt-eid="more" dt-params="small_position=71" dt-imp-once="true"
-                    dt-imp-end-ignore="true" dt-send-beacon="true">
+            <div class="module hot-games">
+                <NuxtLink class="title more" to="/">
                     <h3 class="name">Trò chơi nổi bật</h3>
-                </a>
+                </NuxtLink>
                 <div class="apk-list-1006 no-scrollbar" v-if="gameAdvances">
-                    <a class="apk" title="TFT: Teamfight Tactics APK"
-                        v-for="gameAdvance in gameAdvances"
-                        href="#">
-                        <div class="img-ratio"><img class="icon lazy loaded" alt="TFT: Teamfight Tactics APK"
-                                :src="gameAdvance.icon"
-                                width="68" height="68"></div>
+                    <NuxtLink class="apk" v-for="gameAdvance in gameAdvances" :to="generateUrl(gameAdvance.title, gameAdvance.appId)">
+                        <div class="img-ratio"><img class="icon lazy loaded" :alt="gameAdvance.title"
+                                :src="gameAdvance.icon" width="68" height="68"></div>
                         <div class="text">
                             <div class="name one-line">{{ gameAdvance.title }}</div>
                             <div class="category one-line">{{ gameAdvance.summary }}</div>
                             <div class="install-total">{{ gameAdvance.maxInstalls }}</div>
                         </div>
-                    </a></div>
+                    </NuxtLink>
+                </div>
             </div>
         </div>
         <div class="right">
-            <div class="module top-news-game" dt-eid="card"
-                dt-params="model_type=1262&amp;module_name=top_new_games&amp;position=15" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
-                    title="Trò chơi mới hàng đầu" href="/vn/topic/top-new-games" dt-eid="more"
-                    dt-params="small_position=115" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+            <div class="module top-news-game" >
+                <NuxtLink class="title more"
+                    title="Trò chơi mới hàng đầu" to="/vn/topic/top-new-games">
                     <h3 class="name">Trò chơi mới hàng đầu</h3>
-                </a>
+                </NuxtLink>
                 <div class="apk-list-1007 no-scrollbar" v-if="newGames">
-                    <a class="apk" title="3Q Siêu Lầy APK" v-for="newGame in newGames"
-                        href="/vn/3q-si%C3%AAu-l%E1%BA%A7y/com.shg.sg383" data-dt-app="com.shg.sg383" dt-eid="app"
-                        dt-params="small_position=1&amp;package_name=com.shg.sg383" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true"><img class="icon lazy loaded" alt="3Q Siêu Lầy APK"
-                            :src="newGame.icon"
-                            width="56" height="56">
+                    <NuxtLink class="apk" title="3Q Siêu Lầy APK" v-for="newGame in newGames"
+                    :to="generateUrl(newGame.title, newGame.appId)"><img class="icon lazy loaded" :alt="newGame.title"
+                            :src="newGame.icon" width="56" height="56">
                         <div class="text">
                             <div class="name one-line">{{ newGame.title }}</div>
                             <div class="desc one-line">{{ newGame.summary }}</div>
                         </div>
-                    </a></div>
+                    </NuxtLink>
+                </div>
             </div>
-            <div class="module top-news-app" dt-eid="card"
-                dt-params="model_type=1263&amp;module_name=top_new_apps&amp;position=16" dt-clck-ignore="true"
-                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><a class="title more"
-                    title="Ứng dụng mới hàng đầu" href="/vn/topic/top-new-apps" dt-eid="more" dt-params="small_position=122"
-                    dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+            <div class="module top-news-app">
+                <NuxtLink class="title more" to="/vn/topic/top-new-apps">
                     <h3 class="name">Ứng dụng mới hàng đầu</h3>
-                </a>
+                </NuxtLink>
                 <div class="apk-list-1007 no-scrollbar" v-if="newApplications">
-                    <a class="apk" title="Funhub APK" href="/vn/funhub/net.zfunhub" v-for="newApplication in newApplications">
-                        <img class="icon lazy loaded" alt="Funhub APK"
-                            :src="newApplication.icon"
-                            width="56" height="56">
+                    <a class="apk" :to="generateUrl(newApplication.title, newApplication.appId)"
+                        v-for="newApplication in newApplications">
+                        <img class="icon lazy loaded" :alt="newApplication.title" :src="newApplication.icon" width="56" height="56">
                         <div class="text">
                             <div class="name one-line">{{ newApplication.title }}</div>
                             <div class="desc one-line">{{ newApplication.summary }}

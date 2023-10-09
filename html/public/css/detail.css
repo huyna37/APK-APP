@@ -886,7 +886,6 @@ body {
 @media screen and (min-width: 720px) {
     .detail_container .detail_top .detail_banner .downalod_box .da {
         padding:10px 24px;
-        height: 18px
     }
 }
 
@@ -1490,7 +1489,9 @@ body {
     border: 1px solid #EEEEEE;
     cursor: pointer;
     height: 24px;
-    display: inline-block
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .above-info .description .translate-btns .translate-btn.active,.above-info .description .translate-btns .translate-btn:hover {

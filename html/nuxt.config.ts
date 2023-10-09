@@ -58,5 +58,5 @@ export default defineNuxtConfig({
     excludedUrls: ['/nocsrf1', ['/nocsrf2/.*', 'i']], // any URLs we want to exclude from CSRF protection
     encryptSecret: "123456789iamasecret987654321look", // only for non serverless runtime, random bytes by default
   },
-  ssr: true
+  ssr: false
 })

@@ -1,11 +1,9 @@
 <template>
-    <main class="dt-details-new-box page-q detail_container" data-type="pkg" data-pkg="jp.co.nexon.fmja">
-        <div class="details container" dt-eid="half_page_line" dt-clck-ignore="true" dt-params="small_position=8"
-            dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+    <main class="dt-details-new-box page-q detail_container container m-[auto]" data-type="pkg" data-pkg="jp.co.nexon.fmja">
+        <div class="details">
             <div class="detail_top">
                 <div class="details_safe">
-                    <a rel="nofollow" data-fancybox="" data-type="iframe" title="EA SPORTS FC™ MOBILE đã xác nhận an toàn"
-                        href="/vn/faq-safe.html">
+                    <NuxtLink rel="nofollow" to="/vn/faq-safe.html">
                         <i class="safe">
                             <svg width="19" height="19" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="none" d="M-1-1h21v21H-1z"></path>
@@ -21,54 +19,46 @@
                                 </g>
                             </svg>
                         </i>
-                    </a>
+                    </NuxtLink>
                 </div>
                 <div class="default_ellipsis_1 bread_crumbs">
-                    <a href="/vn/" title="Trang chủ">Trang chủ</a>
-                    <a href="/vn/game" title="Trò chơi">Trò chơi</a>
-                    <a href="/vn/game_sports" title="Thể thao">Thể thao</a>
-                    <span class="pc_name">EA SPORTS FC™ MOBILE</span>
+                    <a href="/" title="Trang chủ">Trang chủ</a>
+                    <span class="pc_name">{{ detail.title }}</span>
                 </div>
                 <div class="detail_banner detail_banner--exp" dt-eid="card"
                     dt-params="model_type=1025&amp;module_name=&amp;position=1" dt-clck-ignore="true" dt-imp-once="true"
                     dt-imp-end-ignore="true" dt-send-beacon="true">
                     <div class="apk_info">
-                        <img title="EA SPORTS FC™ MOBILE biểu tượng" height="80" width="80"
-                            alt="EA SPORTS FC™ MOBILE biểu tượng"
-                            srcset="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9pY29uXzE2OTUzMzIwNDVfMDcx/icon.webp?w=280&amp;fakeurl=1&amp;type=.webp 2x"
-                            src="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9pY29uXzE2OTUzMzIwNDVfMDcx/icon.webp?w=140&amp;fakeurl=1&amp;type=.webp">
+                        <img height="80" width="80" :alt="detail.title" :src="detail.icon">
                         <div class="info">
                             <div class="title_link corner-tag">
                                 <span class="corner-tag-icon-box fr floatr brand-corner-tag">
-                                    <span class="corner-tag-icon">JP</span>
+                                    <span class="corner-tag-icon">{{ detail.currency }}</span>
                                 </span>
-                                <h1>EA SPORTS FC™ MOBILE</h1>
+                                <h1>{{ detail.title }}</h1>
                             </div>
                             <br>
                             <p>
                                 <span class="rating">
                                     <span class="details_stars icon">
-                                        8.0
+                                        {{ detail.scoreText }}
                                     </span>
                                 </span>
-                                <a href="https://apkpure.com/vn/reviews/jp.co.nexon.fmja" class="details_score icon"
-                                    data-type="reviews" dt-eid="reviews_link" dt-imp-ignore="true"
-                                    dt-params="small_position=6" dt-imp-once="true" dt-imp-end-ignore="true"
-                                    dt-send-beacon="true">
-                                    227 Đánh giá
+                                <a href="https://apkpure.com/vn/reviews/jp.co.nexon.fmja" class="details_score icon">
+                                    {{ detail.reviews }} Đánh giá
                                 </a>
                             </p>
                             <br>
                             <p class="details_sdk">
-                                <span>11.0.07</span> by
+                                <span>{{ detail.version }}</span> by
                                 <span class="developer">
                                     <a title="Xem thêm từ NEXON Co., Ltd." href="/vn/developer/NEXON%20Co.%2C%20Ltd.">
-                                        NEXON Co., Ltd.
+                                        {{ detail.developer }}
                                     </a>
                                 </span>
                             </p>
                             <br>
-                            <p class="date">Sep 23, 2023</p>
+                            <p class="date">{{ detail.released }}</p>
                         </div>
                     </div>
                     <div class="downalod_box">
@@ -88,17 +78,6 @@
                                 dt-params="model_type=1025&amp;module_name=&amp;small_position=2&amp;link_url=https%3A%2F%2Fapkpure.com%2Fvn%2Fhow-to%2Fhow-to-install-xapk-apk"
                                 dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                                 Cách để cài tệp XAPK / APK
-                                <i class="howto_share">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M12.8333 7.83334C12.7006 7.83334 12.5735 7.88602 12.4797 7.97979C12.3859 8.07356 12.3333 8.20074 12.3333 8.33334V12.3333H4.33325V4.33334H8.33325C8.46586 4.33334 8.59304 4.28067 8.68681 4.1869C8.78057 4.09313 8.83325 3.96595 8.83325 3.83334C8.83325 3.70074 8.78057 3.57356 8.68681 3.47979C8.59304 3.38602 8.46586 3.33334 8.33325 3.33334H3.83325C3.70064 3.33334 3.57347 3.38602 3.4797 3.47979C3.38593 3.57356 3.33325 3.70074 3.33325 3.83334V12.8333C3.33325 12.966 3.38593 13.0931 3.4797 13.1869C3.57347 13.2807 3.70064 13.3333 3.83325 13.3333H12.8333C12.9659 13.3333 13.093 13.2807 13.1868 13.1869C13.2806 13.0931 13.3333 12.966 13.3333 12.8333V8.33334C13.3333 8.20074 13.2806 8.07356 13.1868 7.97979C13.093 7.88602 12.9659 7.83334 12.8333 7.83334Z"
-                                            fill="#00A6ED"></path>
-                                        <path
-                                            d="M13.0243 3.37184C12.9638 3.3465 12.8988 3.33341 12.8333 3.33334H10.3333C10.2006 3.33334 10.0735 3.38602 9.9797 3.47979C9.88593 3.57356 9.83325 3.70074 9.83325 3.83334C9.83325 3.96595 9.88593 4.09313 9.9797 4.1869C10.0735 4.28067 10.2006 4.33334 10.3333 4.33334H11.6263L7.97975 7.97984C7.932 8.02597 7.89391 8.08114 7.8677 8.14214C7.8415 8.20314 7.8277 8.26875 7.82713 8.33514C7.82655 8.40153 7.8392 8.46737 7.86434 8.52882C7.88948 8.59027 7.92661 8.64609 7.97355 8.69304C8.0205 8.73999 8.07633 8.77711 8.13777 8.80225C8.19922 8.82739 8.26506 8.84005 8.33145 8.83947C8.39784 8.83889 8.46345 8.8251 8.52445 8.79889C8.58546 8.77269 8.64063 8.7346 8.68675 8.68684L12.3333 5.04034V6.33334C12.3333 6.46595 12.3859 6.59313 12.4797 6.6869C12.5735 6.78066 12.7006 6.83334 12.8333 6.83334C12.9659 6.83334 13.093 6.78066 13.1868 6.6869C13.2806 6.59313 13.3333 6.46595 13.3333 6.33334V3.83334C13.3329 3.76778 13.3199 3.70291 13.2948 3.64234C13.244 3.51989 13.1467 3.42259 13.0243 3.37184Z"
-                                            fill="#00A6ED"></path>
-                                    </svg>
-                                </i>
                             </a>
                         </div>
                         <div class="follow-warp details">
@@ -157,25 +136,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="aegon-down-item" data-dt-apkid="b/APK/Y29tLmFwa3B1cmUuYWVnb25fMzE5NDUyN182NWEyYmY1ZQ"
-                    data-dt-version="3.19.45" data-dt-file_size="9964725" data-dt-version_code="3194527" dt-eid="card"
-                    dt-clck-ignore="true" dt-params="model_type=1032&amp;module_name=apkpure_app&amp;position=4"
-                    dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                    <a class="dl-ref" rel="noopener" target="_blank" dl-ref="version-m"
-                        href="/vn/apkpure/com.apkpure.aegon/download?from=profile&amp;icn=aegon&amp;ici=image_profile&amp;refapk=jp.co.nexon.fmja&amp;utm_content=1009"
-                        dt-eid="app" dt-params="small_position=1&amp;package_name=com.apkpure.aegon&amp;channel_id=1009"
-                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <div class="icon">
-                            <img width="45" height="45" alt="APKPure biểu tượng"
-                                src="https://image.winudf.com/v2/upload/images/icon.png/image.webp?fakeurl=1&amp;w=90&amp;type=.webp">
-                        </div>
-                        <div class="text">
-                            <p class="tit">Use APKPure App</p>
-                            <p class="des des_m">Get EA SPORTS FC™ MOBILE old version APK for Android</p>
-                        </div>
-                        <div class="btn">Tải về</div>
-                    </a>
-                </div>
             </div>
             <div class="above-info" dt-eid="card" dt-params="model_type=1151&amp;module_name=about_app_card&amp;position=8"
                 dt-clck-ignore="true" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
@@ -183,12 +143,10 @@
                     <div class="des-box limit">
                         <div class="description">
                             <div class="description-title-box">
-                                <h2>Giới thiệu về EA SPORTS FC™ MOBILE</h2>
+                                <h2>Giới thiệu về {{ detail.title }}</h2>
                                 <div class="translate-btns" data-package-name="jp.co.nexon.fmja" data-local-lang="vi"
                                     data-active-translate-lang="vi">
-                                    <span class="translate-btn more" data-lang="vi" dt-eid="choose_language_button"
-                                        dt-params="small_position=1" dt-imp-once="true" dt-imp-end-ignore="true"
-                                        dt-send-beacon="true">
+                                    <span class="translate-btn more flex items-center">
                                         <i class="world">
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -203,87 +161,7 @@
                             </div>
                             <div class="content">
                                 <div class="translate-content">
-                                    <div>
-                                        <div>
-                                            <p class="description-short">Một trò chơi bóng đá chính thức nơi bạn có thể tận
-                                                hưởng mọi thứ về bóng đá!</p>
-                                            <p class="paragraph-bottom">Trải nghiệm bóng đá đích thực trên FC Mobile ngay
-                                                bây giờ!</p>
-                                            <p class="paragraph-bottom">Lớp Founders Club24, lớp kỷ niệm sự ra đời của FC
-                                                Mobile, hiện đã có sẵn! Hãy tạo một đội hình trong mơ bằng cách sử dụng
-                                                những cầu thủ có trạng thái chuyển nhượng mới nhất!</p>
-                                            <p>Chọn câu lạc bộ yêu thích của bạn trong số các đội thực sự tham gia UCL và
-                                                dẫn dắt đội của bạn đến chiến thắng!</p>
-                                            <p class="paragraph-bottom">Ngoài ra, người chơi UCL24 còn có hệ thống Live OVR
-                                                và giá trị khả năng của họ thay đổi tùy thuộc vào kết quả trận đấu thực tế!
-                                            </p>
-                                            <p class="paragraph-bottom">Ngoài ra, các bước di chuyển và thao tác kỹ năng mới
-                                                đã được thêm vào trong một bản cập nhật lớn.</p>
-                                            <p>Với việc bổ sung tính năng "rê bóng liên tục", tận dụng không gian và rê bóng
-                                                trong thời gian dài, và "dừng cứng", đột ngột dừng khi đang rê bóng và né
-                                                tránh hàng phòng ngự đối phương, một trải nghiệm thậm chí còn gần với bóng
-                                                đá thực sự hơn trước khả thi!</p>
-                                            <p class="paragraph-bottom">Các thao tác mới bao gồm "Power Shot", cho phép thủ
-                                                môn tung ra một cú sút mạnh khó bị cản phá và "Hard Tackle", một kỹ năng cá
-                                                nhân giúp cản phá các cú sút và tạt bóng dễ dàng hơn! Thưởng thức các trận
-                                                đấu mang tính chiến lược và hấp dẫn hơn!</p>
-                                            <p class="paragraph-bottom">FC Mobile liên tục thực hiện các điều chỉnh về lối
-                                                chơi để giúp người hâm mộ tận hưởng trò chơi thoải mái hơn.</p>
-                                            <p class="paragraph-bottom">FC Mobile được tạo ra không chỉ tập trung vào niềm
-                                                vui khi tạo và phát triển đội bóng của riêng bạn mà còn là trải nghiệm bóng
-                                                đá tốt nhất với khả năng hoạt động và đồ họa cao.</p>
-                                            <p class="paragraph-bottom">Tạo đội ban đầu của riêng bạn bằng cách sử dụng các
-                                                câu lạc bộ và người chơi thực sự và không chỉ chơi các trận đấu trực tuyến
-                                                11v11 mà còn cả VS Attack, chỉ nâng cao các cuộc tấn công và quản lý đội của
-                                                bạn cũng như sử dụng chiến thuật và chiến lược để chơi các trận đấu thực sự.
-                                                bao gồm một giải đấu mô phỏng nơi bạn có thể trải nghiệm thăng hạng và xuống
-                                                hạng cũng như chế độ người quản lý nơi bạn đặt mục tiêu thăng tiến lên giải
-                                                đấu bằng cách sử dụng đầy đủ các chiến thuật và hướng dẫn!</p>
-                                            <p>■FC Mobile có nhiều loại giấy phép</p>
-                                            <p>FC Mobile được cấp phép chính thức và bao gồm hơn 30 giải đấu, hơn 700 câu
-                                                lạc bộ và hơn 19.000 cầu thủ bóng đá trên khắp thế giới!</p>
-                                            <p class="paragraph-bottom">Có các sự kiện phục vụ trực tiếp thường xuyên, nơi
-                                                bạn có thể gặp gỡ các câu lạc bộ và cầu thủ mới thực sự!</p>
-                                            <p>■Giấy phép độc quyền của UEFA Champions League</p>
-                                            <p>FC Mobile sở hữu giấy phép độc quyền cho giải đấu danh giá nhất thế giới,
-                                                UEFA Champions League!</p>
-                                            <p class="paragraph-bottom">Bạn cũng có thể thưởng thức các sự kiện trực tiếp
-                                                phản ánh các giải đấu ngoài đời thực!</p>
-                                            <p>■Tối ưu hóa cảm giác vận hành cho thiết bị di động</p>
-                                            <p>FC Mobile hỗ trợ cả chế độ cử chỉ và chế độ nút bên cạnh thao tác tự động/thủ
-                                                công.</p>
-                                            <p class="paragraph-bottom">Chọn phương pháp điều khiển phù hợp với bạn và chơi
-                                                thoải mái!</p>
-                                            <p>■Không đặt lại mùa</p>
-                                            <p>Không có thiết lập lại mùa giải trong FC Mobile, vì vậy bạn có thể sử dụng
-                                                vĩnh viễn những cầu thủ bạn đã có được!</p>
-                                            <p class="paragraph-bottom">Chúc bạn vui vẻ khi chơi với đội bóng lý tưởng của
-                                                mình!</p>
-                                            <p>■Chế độ chơi đa dạng phù hợp với sở thích của bạn</p>
-                                            <p class="paragraph-bottom">Ngoài trò chơi 11 đấu 11 đầy đủ, còn có chế độ tấn
-                                                công VS nơi bạn cạnh tranh để giành được nhiều bàn thắng nhất trong thời
-                                                gian giới hạn, một giải đấu mô phỏng nơi bạn có thể trải nghiệm thăng hạng
-                                                và xuống hạng giống như một trò chơi giải đấu thực sự bằng cách tận dụng tối
-                                                đa về chiến thuật và chiến lược để quản lý đội của bạn cũng như rê bóng.
-                                                Được trang bị nhiều chế độ chơi khác nhau, bao gồm các trò chơi nhỏ như ,
-                                                chuyền bóng và bắn súng! Bạn có thể thưởng thức bóng đá yêu thích của bạn
-                                                theo sở thích của bạn!</p>
-                                            <p>■Thị trường chuyển nhượng thực, hệ thống trao đổi cầu thủ</p>
-                                            <p class="paragraph-bottom">Bạn có thể sử dụng thị trường chuyển nhượng để tự do
-                                                mua bán những cầu thủ yêu thích của mình hoặc trao đổi những cầu thủ bạn sở
-                                                hữu với những cầu thủ mà đội của bạn cần!</p>
-                                            <p>■ Hệ thống khác nhau để thu hút người chơi và vật phẩm</p>
-                                            <p>Trong FC Mobile, có nhiều nội dung khác nhau mà vật phẩm và người chơi có thể
-                                                nhận được.</p>
-                                            <p>Sử dụng nhiều nội dung khác nhau để phát triển đội và người chơi của bạn!</p>
-                                        </div>
-                                        <div class="whats-new-info">
-                                            <h3>Có gì mới trong phiên bản mới nhất 11.0.07</h3>
-                                            <p class="date">Last updated on Sep 23, 2023</p>
-                                            <p>Minor bug fixes and improvements. Install or update to the newest version to
-                                                check it out!</p>
-                                        </div>
-                                    </div>
+                                    {{ detail.description }}
                                 </div>
                                 <div class="loading-box">
                                     <div class="translate-loading-icon"></div>
@@ -297,21 +175,19 @@
                                 <div class="additional-content">
                                     <div class="additional-item">
                                         <p class="title">Phiên bản mới nhất</p>
-                                        <p class="additional-info">
-                                            <a class="requestupdate ga" title="Yêu cầu cập nhật EA SPORTS FC™ MOBILE"
-                                                rel="noopener" target="_blank"
+                                        <p class="additional-info flex items-center">
+                                            <a class="requestupdate ga" rel="noopener" target="_blank"
                                                 href="/vn/need-update.html?pkg=jp.co.nexon.fmja">
                                                 <img width="16" height="16" class="req_update"
-                                                    alt="Yêu cầu cập nhật EA SPORTS FC™ MOBILE"
                                                     src="https://static.apkpure.com/mobile/static/imgs/requpdate.png">
                                             </a>
-                                            11.0.07
+                                            {{ detail.version }}
                                         </p>
                                     </div>
                                     <div class="additional-item">
                                         <p class="title">Được tải lên bởi</p>
                                         <p class="additional-info">
-                                            Xaiane Silva
+
                                         </p>
                                     </div>
                                     <div class="additional-item">
@@ -322,10 +198,8 @@
                                         <p class="title">Available on</p>
                                         <p class="additional-info">
                                             <a class="ga" rel="nofollow noopener" target="_blank"
-                                                title="Tải EA SPORTS FC™ MOBILE trên Google Play"
                                                 href="https://play.google.com/store/apps/details?id=jp.co.nexon.fmja">
                                                 <img width="84.46" height="18" class="get_it_gp"
-                                                    alt="Tải EA SPORTS FC™ MOBILE trên Google Play"
                                                     src="https://static.apkpure.com/mobile/static/imgs/gp_logo.png">
                                             </a>
                                         </p>
@@ -352,132 +226,26 @@
                             </div>
                         </div>
                     </div>
-                    <div class="show-more description-more" dt-eid="show_more" dt-params="small_position=2"
-                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <div class="show-more-end"></div>
-                        <span>Hiển thị nhiều hơn</span>
-                    </div>
                     <div class="tag-box">
-                        <span class="tag-item">
-                            <a data-dt-tag_id="5f48a0173392df60477642bb" data-dt-tag_name="Thể thao" title=" Thể thao"
-                                href="/vn/sports" dt-eid="tag"
-                                dt-params="small_position=1&amp;tag_id=5f48a0173392df60477642bb&amp;tag_name=Th%E1%BB%83%20thao"
-                                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                                Thể thao
-                            </a>
-                        </span>
-                        <span class="tag-item">
-                            <a data-dt-tag_id="7442" data-dt-tag_name="Ngoại Tuyến" title=" Ngoại Tuyến"
-                                href="/vn/tag/offline" dt-eid="tag"
-                                dt-params="small_position=2&amp;tag_id=7442&amp;tag_name=Ngo%E1%BA%A1i%20Tuy%E1%BA%BFn"
-                                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                                Ngoại Tuyến
-                            </a>
-                        </span>
-                        <span class="tag-item">
-                            <a data-dt-tag_id="4967" data-dt-tag_name="Bóng Đá" title=" Bóng Đá" href="/vn/tag/football"
-                                dt-eid="tag"
-                                dt-params="small_position=3&amp;tag_id=4967&amp;tag_name=B%C3%B3ng%20%C4%90%C3%A1"
-                                dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                                Bóng Đá
-                            </a>
+                        <span class="tag-item" v-for="category in detail.categories">
+                            <NuxtLink to="/vn/sports">
+                                {{ category.name }}
+                            </NuxtLink>
                         </span>
                     </div>
-                </div>
-            </div>
-            <div class="apk-list-with dt-news-article-list" dt-eid="card"
-                dt-params="model_type=1136&amp;module_name=related_package_news&amp;card_title=Daily%20Games%20News%20Update&amp;position=5"
-                dt-clck-ignore="true" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                <a class="title-bar" title="Daily Games News Update"
-                    href="https://apkpure.com/vn/search?q=jp.co.nexon.fmja&amp;sat=articles&amp;ao=newest&amp;at=app_details"
-                    target="_blank" rel="noopener" dt-eid="card" dt-params="module_name=related_package_news&amp;position=6"
-                    dt-imp-ignore="true" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                    <h3>EA SPORTS FC™ MOBILE Các bài báo</h3>
-                </a>
-                <ul class="detail-news-article-list">
-                    <li class="detail-news-article-item" data-dt-article-id="20778" data-dt-article-type="4"><a
-                            href="/vn/howto/how-to-download-fifa-mobile-on-android"
-                            title="Cách tải FIFA MOBILE trên di động" dt-eid="article"
-                            dt-params="small_position=1&amp;article_id=20778&amp;article_type=4" dt-imp-ignore="true"
-                            dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><img
-                                class="lazy detail-news-article-item-img loading"
-                                src="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9iYW5uZXJfMTY2ODU0NDM5OF8wNTU/banner.jpg?fakeurl=1&amp;w=192"
-                                alt="Cách tải FIFA MOBILE trên di động" width="192" height="108"
-                                style="overflow: hidden; object-fit: cover;"
-                                srcset="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9iYW5uZXJfMTY2ODU0NDM5OF8wNTU/banner.jpg?fakeurl=1&amp;w=192 2x"
-                                data-was-processed="true"></a><a href="/vn/howto/how-to-download-fifa-mobile-on-android"
-                            class="detail-news-article-item-title" title="Cách tải FIFA MOBILE trên di động"
-                            dt-eid="article" dt-params="small_position=1&amp;article_id=20778&amp;article_type=4"
-                            dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">Cách tải FIFA MOBILE trên di
-                            động</a></li>
-                    <li class="detail-news-article-item" data-dt-article-id="11579" data-dt-article-type="2"><a
-                            href="/id/news/fifa-mobile-ea-sports-lowers-minimum-prices-for-80-100-ovr-players"
-                            title="Harga Pemain FIFA Mobile dengan Peringkat 80-110 Akan Menurun - Respons Terhadap Keluhan Penggemar"
-                            dt-eid="article" dt-params="small_position=2&amp;article_id=11579&amp;article_type=2"
-                            dt-imp-ignore="true" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true"><img
-                                class="lazy detail-news-article-item-img loading"
-                                src="https://static-sg.winudf.com/wupload/xy/aprojectadmin/1oKyYhS5.jpg?imageMogr2/thumbnail/192x108"
-                                alt="Harga Pemain FIFA Mobile dengan Peringkat 80-110 Akan Menurun - Respons Terhadap Keluhan Penggemar"
-                                width="192" height="108" style="overflow: hidden; object-fit: cover;"
-                                srcset="https://static-sg.winudf.com/wupload/xy/aprojectadmin/1oKyYhS5.jpg?imageMogr2/thumbnail/384x216 2x"
-                                data-was-processed="true"></a><a
-                            href="/id/news/fifa-mobile-ea-sports-lowers-minimum-prices-for-80-100-ovr-players"
-                            class="detail-news-article-item-title"
-                            title="Harga Pemain FIFA Mobile dengan Peringkat 80-110 Akan Menurun - Respons Terhadap Keluhan Penggemar"
-                            dt-eid="article" dt-params="small_position=2&amp;article_id=11579&amp;article_type=2"
-                            dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">Harga Pemain FIFA Mobile
-                            dengan Peringkat 80-110 Akan Menurun - Respons Terhadap Keluhan Penggemar</a></li>
-                </ul>
-            </div>
-            <div class="available-box" dt-eid="card" dt-clck-ignore="true"
-                dt-params="model_type=1066&amp;module_name=other_site_entrance&amp;position=12" dt-imp-once="true"
-                dt-imp-end-ignore="true" dt-send-beacon="true">
-                <div class="title-bar no-more">
-                    <h3>Cũng có sẵn cho các nền tảng khác</h3>
-                </div>
-                <div class="list">
-                    <a href="https://windows.apkpure.com/fifa-mobile-fifa-world-cup" class="windows"
-                        title="FIFA Mobile: FIFA World Cup" target="_blank" rel="noreferrer"
-                        dt-eid="google_chrome_for_windows"
-                        dt-params="model_type=1066&amp;module_name=other_site_entrance&amp;position=12&amp;small_position=1"
-                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">FIFA Mobile: FIFA World Cup cho
-                        Windows</a>
                 </div>
             </div>
             <div class="screen-wrap">
                 <div class="title-bar no-more">
-                    <h3>EA SPORTS FC™ MOBILE Ảnh chụp màn hình</h3>
+                    <h3>{{ detail.title }} Ảnh chụp màn hình</h3>
                 </div>
                 <div class="screenbox" dt-eid="card" dt-params="model_type=1017&amp;module_name=materials&amp;position=1"
                     dt-clck-ignore="true" dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                     <div class="screen" id="screen">
                         <div class="b">
-                            <span class="details-tube ga" ga="youtube|click|jp.co.nexon.fmja"
-                                title="EA SPORTS FC™ MOBILE cho Trailer Android chính thức" data-fancybox="jp.co.nexon.fmja"
-                                data-src="https://www.youtube.com/embed/NR2GEHPjNtA?ps=play&amp;vq=large&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;autoplay=1"
-                                dt-eid="video" dt-params="small_position=1" dt-imp-once="true" dt-send-beacon="true">
-                                <div class="tube tube-lazy"
-                                    data-original="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV90dWJlXzE2OTUzMzIwNzJfMDgw/tube.jpg?fakeurl=1&amp;type=.webp"
-                                    data-was-processed="true"
-                                    style="background-image: url(&quot;https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV90dWJlXzE2OTUzMzIwNzJfMDgw/tube.jpg?fakeurl=1&amp;type=.webp&quot;);">
-                                    <div class="play"><i class="details_play">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M8.56588 19.8501L19.5983 12.8301C20.2006 12.4401 20.2006 11.5701 19.5983 11.1801L8.56588 4.17006C7.90333 3.75006 7.05005 4.22006 7.05005 4.99006V19.0301C7.05005 19.8101 7.90333 20.2701 8.56588 19.8501Z"
-                                                    fill="white"></path>
-                                            </svg>
-                                        </i></div>
-                                </div>
-                            </span>
-                            <a href="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9zY3JlZW5fMF8xNjk1MzMyMDQ2XzA2MQ/screen-0.webp?fakeurl=1&amp;type=.webp"
-                                data-fancybox="jp.co.nexon.fmja" rel="noopener" target="_blank" class="screen-pswp"
-                                title="EA SPORTS FC™ MOBILE bài đăng" data-width="0" data-height="0" dt-eid="image"
-                                dt-params="small_position=2" dt-imp-once="true" dt-send-beacon="true">
-                                <img width="85" height="180" alt="EA SPORTS FC™ MOBILE bài đăng"
-                                    srcset="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9zY3JlZW5fMF8xNjk1MzMyMDQ2XzA2MQ/screen-0.webp?h=300&amp;fakeurl=1&amp;type=.webp 2x"
-                                    src="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9zY3JlZW5fMF8xNjk1MzMyMDQ2XzA2MQ/screen-0.webp?h=200&amp;fakeurl=1&amp;type=.webp">
-                            </a>
+                            <NuxtLink v-for='screen in detail.screenshots'>
+                                <img :src='screen'>
+                            </NuxtLink>
                         </div>
                     </div>
                     <button type="button" class="det-pic-control" id="prev" go=""></button>
@@ -487,20 +255,16 @@
             <div class="old-versions" dt-eid="card"
                 dt-params="model_type=1152&amp;module_name=old_version_card&amp;position=7" dt-imp-once="true"
                 dt-imp-end-ignore="true" dt-send-beacon="true">
-                <a class="title-bar" href="https://apkpure.com/vn/fifa-mobile/jp.co.nexon.fmja/versions"
-                    title="EA SPORTS FC™ MOBILE Phiên bản trước" target="_blank" rel="noopener">
-                    <h3>Phiên bản cũ của EA SPORTS FC™ MOBILE</h3>
+                <a class="title-bar" href="https://apkpure.com/vn/fifa-mobile/jp.co.nexon.fmja/versions" target="_blank"
+                    rel="noopener">
+                    <h3>Phiên bản cũ của {{ detail.title }}</h3>
                 </a>
                 <div class="card version-list">
-                    <a class="version-item dt-old-versions-item" data-dt-package_name="jp.co.nexon.fmja"
-                        data-dt-version="11.0.07" data-dt-version_code="113" data-dt-file_size="249033519"
-                        data-dt-apkid="b/XAPK/anAuY28ubmV4b24uZm1qYV8xMTNfNWYzZWU0ZWQ"
-                        title="Tải về apk EA SPORTS FC™ MOBILE phiên bản mới nhất"
-                        href="/vn/fifa-mobile/jp.co.nexon.fmja/download" dt-eid="version_box"
-                        dt-params="small_position=1&amp;version=11.0.07&amp;version_code=113" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true">
+                    <a class="version-item dt-old-versions-item" href="/vn/fifa-mobile/jp.co.nexon.fmja/download"
+                        dt-eid="version_box" dt-params="small_position=1&amp;version=11.0.07&amp;version_code=113"
+                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
                         <div class="version-info">
-                            <h4 class="apk-name">EA SPORTS FC™ MOBILE 11.0.07</h4>
+                            <h4 class="apk-name">{{ detail.title }} {{ detail.version }}</h4>
                             <p></p>
                             <p class="other-infos">
                                 <span class="size">237.5 MB</span>
@@ -519,10 +283,7 @@
                             <span>Tải về</span>
                         </span>
                     </a>
-                    <a class="more-version" href="https://apkpure.com/vn/fifa-mobile/jp.co.nexon.fmja/versions"
-                        title="EA SPORTS FC™ MOBILE Phiên bản trước" dt-eid="all_versions_button"
-                        dt-params="model_type=1152&amp;module_name=old_version_card&amp;position=7&amp;small_position=4"
-                        dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+                    <a class="more-version" href="https://apkpure.com/vn/fifa-mobile/jp.co.nexon.fmja/versions">
                         Tất cả các phiên bản
                     </a>
                 </div>
@@ -531,98 +292,73 @@
                 dt-params="model_type=1016&amp;module_name=similar-apps&amp;position=9" dt-imp-once="true"
                 dt-imp-end-ignore="true" dt-send-beacon="true">
                 <div class="apk-list-with">
-                    <a class="title-bar" title="Các trò chơi như EA SPORTS FC™ MOBILE" href="/vn/similar/jp.co.nexon.fmja">
-                        <h3>Các trò chơi như EA SPORTS FC™ MOBILE</h3>
+                    <a class="title-bar" href="/vn/similar/jp.co.nexon.fmja">
+                        <h3>Các trò chơi như {{ detail.title }}</h3>
                     </a>
                     <div class="scroll-box">
-                        <a class="apk" title="FIFA Online 4 M by EA SPORTS™" data-dt-app="com.garena.game.fo4mvn"
-                            data-dt-recid="" data-dt-is-recommend="true" data-dt-is-participate-experiment="true"
-                            href="https://apkpure.com/vn/fifa-online-4-m-by-ea-sports%E2%84%A2/com.garena.game.fo4mvn"
-                            dt-eid="app" dt-params="small_position=1&amp;package_name=com.garena.game.fo4mvn"
-                            dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
+                        <NuxtLink class="apk" v-for='similar in similarApp' :to="generateUrl(similar.title, similar.appId)">
                             <img class="lazy1 loaded"
-                                data-original="https://image.winudf.com/v2/image1/Y29tLmdhcmVuYS5nYW1lLmZvNG12bl9pY29uXzE2MDk5OTcyMjJfMDEy/icon.webp?w=100&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/Y29tLmdhcmVuYS5nYW1lLmZvNG12bl9pY29uXzE2MDk5OTcyMjJfMDEy/icon.webp?w=160&amp;fakeurl=1&amp;type=.webp 2x"
-                                src="https://image.winudf.com/v2/image1/Y29tLmdhcmVuYS5nYW1lLmZvNG12bl9pY29uXzE2MDk5OTcyMjJfMDEy/icon.webp?w=100&amp;fakeurl=1&amp;type=.webp"
-                                alt="FIFA Online 4 M by EA SPORTS™ biểu tượng" title="FIFA Online 4 M by EA SPORTS™"
-                                srcset="https://image.winudf.com/v2/image1/Y29tLmdhcmVuYS5nYW1lLmZvNG12bl9pY29uXzE2MDk5OTcyMjJfMDEy/icon.webp?w=160&amp;fakeurl=1&amp;type=.webp 2x"
-                                data-was-processed="true">
+                                :src="similar.icon"
+                                :alt="similar.summary">
                             <div class="content">
-                                <div class="stars-title title">FIFA Online 4 M by EA SPORTS™</div>
+                                <div class="stars-title title">{{ similar.summary }}</div>
                                 <div class="stars-box">
-                                    <span class="star">7.6</span>
+                                    <span class="star">{{ similar.scoreText }}</span>
                                 </div>
                             </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="list-wrap dt-developer-more" dt-eid="card"
-                dt-params="model_type=1016&amp;module_name=developer_more_apps&amp;position=10" dt-imp-once="true"
-                dt-imp-end-ignore="true" dt-send-beacon="true">
-                <div class="apk-list-with">
-                    <a class="title-bar" title="Xem thêm từ NEXON Co., Ltd." href="/vn/developer/NEXON%20Co.%2C%20Ltd.">
-                        <h3>Xem thêm từ NEXON Co., Ltd.</h3>
-                    </a>
-                    <div class="scroll-box">
-                        <a class="apk" title="ハイドアンドファイア - 対ゾンビ、マルチプレイ、対戦でガンシューティング！FPS、TPSゲーム"
-                            data-dt-app="jp.co.nexon.hideandfire" data-dt-recid="" data-dt-is-recommend=""
-                            data-dt-is-participate-experiment=""
-                            href="https://apkpure.com/vn/%E3%83%8F%E3%82%A4%E3%83%89%E3%82%A2%E3%83%B3%E3%83%89%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2-%E5%AF%BE%E3%82%BE%E3%83%B3%E3%83%93%E3%80%81%E3%83%9E%E3%83%AB%E3%83%81%E3%83%97%E3%83%AC%E3%82%A4%E3%80%81%E5%AF%BE%E6%88%A6%E3%81%A7%E3%82%AC%E3%83%B3%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%EF%BC%81fps%E3%80%81tps%E3%82%B2%E3%83%BC%E3%83%A0/jp.co.nexon.hideandfire"
-                            dt-eid="app" dt-params="small_position=1&amp;package_name=jp.co.nexon.hideandfire"
-                            dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true">
-                            <img class="lazy1 loaded"
-                                data-original="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uaGlkZWFuZGZpcmVfaWNvbl8xNTUzNTg1ODIwXzAwNg/icon.webp?w=100&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uaGlkZWFuZGZpcmVfaWNvbl8xNTUzNTg1ODIwXzAwNg/icon.webp?w=160&amp;fakeurl=1&amp;type=.webp 2x"
-                                src="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uaGlkZWFuZGZpcmVfaWNvbl8xNTUzNTg1ODIwXzAwNg/icon.webp?w=100&amp;fakeurl=1&amp;type=.webp"
-                                alt="ハイドアンドファイア - 対ゾンビ、マルチプレイ、対戦でガンシューティング！FPS、TPSゲーム biểu tượng"
-                                title="ハイドアンドファイア - 対ゾンビ、マルチプレイ、対戦でガンシューティング！FPS、TPSゲーム"
-                                srcset="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uaGlkZWFuZGZpcmVfaWNvbl8xNTUzNTg1ODIwXzAwNg/icon.webp?w=160&amp;fakeurl=1&amp;type=.webp 2x"
-                                data-was-processed="true">
-                            <div class="content">
-                                <div class="stars-title title">ハイドアンドファイア - 対ゾンビ、マルチプレイ、対戦でガンシューティング！FPS、TPSゲーム</div>
-                                <div class="stars-box">
-                                    <span class="star">8.8</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="side">
-            <div class="dt-discover discover" dt-eid="card"
-                dt-params="model_type=1016&amp;module_name=discover_app&amp;position=11" dt-imp-once="true"
-                dt-imp-end-ignore="true" dt-send-beacon="true">
-                <div class="apk-list-with">
-                    <a class="title-bar" title="Phát hiện" href="/vn/discover" dt-eid="card"
-                        dt-params="model_type=1016&amp;module_name=discover_app&amp;position=3" dt-imp-once="true"
-                        dt-imp-end-ignore="true" dt-send-beacon="true">
-                        <h3>Phát hiện</h3>
-                    </a>
-                    <div class="scroll-box">
-                        <a class="apk" title="EA SPORTS FC™ MOBILE" data-dt-app="jp.co.nexon.fmja" data-dt-recid=""
-                            data-dt-is-recommend="" data-dt-is-participate-experiment=""
-                            href="https://apkpure.com/vn/fifa-mobile/jp.co.nexon.fmja" dt-eid="app"
-                            dt-params="small_position=1&amp;package_name=jp.co.nexon.fmja" dt-imp-once="true"
-                            dt-imp-end-ignore="true" dt-send-beacon="true">
-                            <img class="lazy1 loaded"
-                                data-original="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9pY29uXzE2OTUzMzIwNDVfMDcx/icon.webp?w=100&amp;fakeurl=1&amp;type=.webp"
-                                data-srcset="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9pY29uXzE2OTUzMzIwNDVfMDcx/icon.webp?w=160&amp;fakeurl=1&amp;type=.webp 2x"
-                                src="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9pY29uXzE2OTUzMzIwNDVfMDcx/icon.webp?w=100&amp;fakeurl=1&amp;type=.webp"
-                                alt="EA SPORTS FC™ MOBILE biểu tượng" title="EA SPORTS FC™ MOBILE"
-                                srcset="https://image.winudf.com/v2/image1/anAuY28ubmV4b24uZm1qYV9pY29uXzE2OTUzMzIwNDVfMDcx/icon.webp?w=160&amp;fakeurl=1&amp;type=.webp 2x"
-                                data-was-processed="true">
-                            <div class="content">
-                                <div class="stars-title title">EA SPORTS FC™ MOBILE</div>
-                                <div class="stars-box">
-                                    <span class="star">8.0</span>
-                                </div>
-                            </div>
-                        </a>
+                        </NuxtLink>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 </template>
+
+<script setup lang='ts'>
+
+const { $customFetch } = useNuxtApp();
+const route = useRoute();
+const { itm } = route.query;
+const detail = ref();
+const similarApp = ref();
+
+async function GetById() {
+    try {
+        let data = await $customFetch(`/home/${itm}`);
+        detail.value = data.result;
+    }
+    catch (e) {
+
+    }
+}
+
+function generateUrl(title: string, id: string) {
+    const regex = /^([^:]+):\s(.+)$/;
+    const match = regex.exec(title);
+    if (match) {
+        // Trích xuất hai phần từ kết quả của regex
+        const part1 = match[1];
+        const part2 = match[2];
+
+        // Thay thế dấu ":" bằng dấu "-"
+        const result = (part1 + "-" + part2).replace(/\s/g, '-') + `?itm=${id}`;
+
+        return result
+    }
+    return '';
+}
+
+async function GetSimilarByApp() {
+    try {
+        let data = await $customFetch(`/home/similar?id=${detail.value._id}&limit=${10}`);
+        similarApp.value = data.result;
+    }
+    catch (e) {
+
+    }
+}
+
+await GetById();
+
+await GetSimilarByApp();
+</script>

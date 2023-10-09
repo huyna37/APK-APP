@@ -14,6 +14,12 @@ const schema = new mongoose.Schema({
   scoreText: String,
   priceText: String,
   free: Boolean,
+  title: String,
+  updated: Date,
+  version: String,
+  parentAppId: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
 });
 
 const model = mongoose.model('Similar', schema);

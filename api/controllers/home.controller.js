@@ -32,3 +32,19 @@ exports.getById = async (req, res) => {
         });
     }
 };
+
+exports.getSimilarApp = async (req, res) => {
+    try {
+        const result = await Service.getSimilarApp(req.query);
+        res.status(200).json({
+            status: true,
+            result
+        });
+    } catch (error) {
+        console.error("Error getById data:", error);
+        res.status(500).json({
+            status: false,
+            error: "Internal server error"
+        });
+    }
+};

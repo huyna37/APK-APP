@@ -2,13 +2,13 @@
     <header id="header" data-search-sug-download="1">
         <div class="nav_container">
             <h1 class="logo">
-                <a title="APKPure" href="https://apkpure.com/vn/">
+                <NuxtLink title="APKPure" to="/">
                     <img alt="APKPure" src="https://static.apkpure.com/www/static/imgs/logo_new.png"
                         srcset="https://static.apkpure.com/www/static/imgs/logo_new@2x.png 2x" height="32" width="159"
                         class="p_logo">
                     <img class="m_logo" src="https://static.apkpure.com/mobile/static/imgs/logo_v1.png" height="24"
                         width="100" alt="Logo">
-                </a>
+                </NuxtLink>
             </h1>
             <div class="shadow" id="shadow" onclick="closeMenu()" style="display: none;"></div>
             <div class="nav_new" id="nav_new" dt-eid="card"
