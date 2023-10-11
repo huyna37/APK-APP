@@ -17,4 +17,4 @@ const categories = {
     GAME_WORD: 'GAME_WORD',
 }
 
-export default categories;
+module.exports = { categories };

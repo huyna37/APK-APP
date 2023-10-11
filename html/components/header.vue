@@ -20,8 +20,8 @@
                     </button>
                 </div>
                 <div class="item nav_user_new" id="nav_user_new" data-ref="%2Fvn">
-                    <a id="nav_user_a" title="user icon" data-href="https://apkpure.com/vn/login"
-                        data-click="nextByApkpure('%2Fvn')" href="https://apkpure.com/vn/login" dt-eid="nav_button"
+                    <a id="nav_user_a" title="user icon" data-href="#"
+                        data-click="nextByApkpure('%2Fvn')" href="#" dt-eid="nav_button"
                         dt-params="small_position=1&amp;nav_button_name=" dt-imp-once="true" dt-imp-end-ignore="true"
                         dt-send-beacon="true" onclick="nextByApkpure('%2Fvn')">
                         <img id="nav_user_img" width="35" height="35" class="nav_user_img" alt="APKPure icon"
@@ -132,15 +132,9 @@
                             <span class="twitter-typeahead" style="position: relative; display: inline-block;"><input
                                     class="query autocomplete main-autocomplete tt-hint" autocomplete="off"
                                     title="Nhập tên ứng dụng, tên gói, ID gói" type="text" size="40" dt-eid="search_box"
-                                    dt-params="small_position=2&amp;search_default_keyword=APKPure&amp;operational_configuration_type=1"
-                                    dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true" readonly=""
-                                    spellcheck="false" tabindex="-1" dir="ltr"
                                     style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"><input
                                     id="form_query" class="query autocomplete main-autocomplete tt-input" autocomplete="off"
-                                    title="Nhập tên ứng dụng, tên gói, ID gói" name="q" type="text" size="40"
                                     placeholder="APKPure" dt-eid="search_box"
-                                    dt-params="small_position=2&amp;search_default_keyword=APKPure&amp;operational_configuration_type=1"
-                                    dt-imp-once="true" dt-imp-end-ignore="true" dt-send-beacon="true" spellcheck="false"
                                     style="position: relative; vertical-align: top; background-color: transparent;">
                                 <pre aria-hidden="true"
                                     style="position: absolute; visibility: hidden; white-space: pre; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre>
@@ -210,6 +204,10 @@
 </template>
 
 <script setup>
-import categories from '@/unity/constants.js';
+import category from '@/unity/constants.js';
 
+let categories = [];
+for (let key in category) {
+    categories[key] = key.toLowerCase().replace(/_/g, " ").replace(/\b[a-z]/g, function(f) { return f.toUpperCase(); });
+}
 </script>

@@ -5,6 +5,7 @@ const PermissionModel = require('../models/permission.model');
 const DateSafetyModel = require('../models/datasafety.model');
 const GPlayService = require('../lib/services')
 const gplay = require('google-play-scraper');
+const { categories } = require('../unity/constants')
 
 // Define a function to migrate data for a single app
 const migrateAppData = async (appId) => {
@@ -160,5 +161,5 @@ exports.updateSimilarData = async (req, res) => {
 
 
 function GetListCategory() {
-  return Object.keys(gplay.category);
+  return Object.keys(categories);
 }

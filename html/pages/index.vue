@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import category from '@/unity/constants.js';
 
-let shoppings = ref<any>([]);
-let games = ref<any>([]);
-let populars = ref<any>([]);
-let beauties = ref<any>([]);
-let daties = ref<any>([]);
+let adventures = ref<any>([]);
+let actions = ref<any>([]);
+let arcades = ref<any>([]);
+let casios = ref<any>([]);
+let casuals = ref<any>([]);
 let gameSellings = ref<any>([]);
 let newGames = ref<any>([]);
 let newApplications = ref<any>([]);
-let gameAdvances = ref<any>([]);
+let gameCards = ref<any>([]);
 let sliderApp = ref<any>([]);
+let trivias = ref<any>([]);
 
 const { $customFetch } = useNuxtApp();
 
-async function getGameAdvances() {
+async function getGameCard() {
     let data = await $customFetch(`/home`, {
         params: {
             page: 1,
@@ -24,7 +25,7 @@ async function getGameAdvances() {
             filterOptions: JSON.stringify({ "genreId": category.GAME_CARD })
         }
     });
-    gameAdvances = data.result?.data;
+    gameCards = data.result?.data;
 }
 
 async function getSliderApp() {
@@ -34,26 +35,26 @@ async function getSliderApp() {
             limit: 6,
             sortField: 'score',
             sortOrder: 'asc',
-            filterOptions: JSON.stringify({ "genreId": category.ART_AND_DESIGN })
+            filterOptions: JSON.stringify({ "genreId": category.GAME_WORD })
         }
     });
     sliderApp = data.result?.data;
 }
 
-async function getShoppings() {
+async function getGameAdventure() {
     let data = await $customFetch(`/home`, {
         params: {
             page: 1,
             limit: 20,
             sortField: 'views',
             sortOrder: 'desc',
-            filterOptions: JSON.stringify({ "genreId": category.SHOPPING })
+            filterOptions: JSON.stringify({ "genreId": category.GAME_ADVENTURE })
         }
     });
-    shoppings = data.result?.data;
+    adventures = data.result?.data;
 }
 
-async function getGames() {
+async function getGameActions() {
     let data = await $customFetch(`/home`, {
         params: {
             page: 1,
@@ -63,49 +64,49 @@ async function getGames() {
             filterOptions: JSON.stringify({ "genreId": category.GAME_ACTION })
         }
     });
-    games = data.result?.data;
+    actions = data.result?.data;
 }
 
-async function getPopulars() {
+async function getGameArcade() {
     let data = await $customFetch(`/home`, {
         params: {
             page: 1,
             limit: 20,
             sortField: 'views',
             sortOrder: 'asc',
-            filterOptions: JSON.stringify({ "genreId": category.COMICS })
+            filterOptions: JSON.stringify({ "genreId": category.GAME_ARCADE })
         }
     });
 
-    populars = data.result?.data;
+    arcades = data.result?.data;
 }
 
-async function getBeauties() {
+async function getGameCasio() {
     let data = await $customFetch(`/home`, {
         params: {
             page: 1,
             limit: 20,
             sortField: 'views',
             sortOrder: 'asc',
-            filterOptions: JSON.stringify({ "genreId": category.BEAUTY })
+            filterOptions: JSON.stringify({ "genreId": category.GAME_CASINO })
         }
     });
 
-    beauties = data.result?.data;
+    casios = data.result?.data;
 }
 
-async function getDaties() {
+async function getGameCasual() {
     let data = await $customFetch(`/home`, {
         params: {
             page: 1,
             limit: 20,
             sortField: 'views',
             sortOrder: 'asc',
-            filterOptions: JSON.stringify({ "genreId": category.DATING })
+            filterOptions: JSON.stringify({ "genreId": category.GAME_CASUAL })
         }
     });
 
-    daties = data.result?.data;
+    casuals = data.result?.data;
 }
 
 async function getGameSellings() {
@@ -115,7 +116,7 @@ async function getGameSellings() {
             limit: 10,
             sortField: 'views',
             sortOrder: 'asc',
-            filterOptions: JSON.stringify({ "genreId": category.GAME_ADVENTURE, "price": { $ne: '0' } })
+            filterOptions: JSON.stringify({ "genreId": category.GAME_EDUCATIONAL, "price": { $ne: '0' } })
         }
     });
 
@@ -129,7 +130,7 @@ async function getNewGames() {
             limit: 10,
             sortField: 'views',
             sortOrder: 'asc',
-            filterOptions: JSON.stringify({ "genreId": category.GAME_ACTION })
+            filterOptions: JSON.stringify({ "genreId": category.GAME_MUSIC })
         }
     });
 
@@ -143,16 +144,30 @@ async function getNewApplications() {
             limit: 10,
             sortField: 'released',
             sortOrder: 'desc',
-            filterOptions: JSON.stringify({ "genreId": category.ART_AND_DESIGN })
+            filterOptions: JSON.stringify({ "genreId": category.GAME_PUZZLE })
         }
     });
 
     newApplications = data.result?.data;
 }
 
-await Promise.all([getShoppings(), getGames(), getPopulars(), getBeauties(), getDaties(), getNewGames(), getGameSellings(), getNewApplications()]);
+async function getGameTrivia() {
+    let data = await $customFetch(`/home`, {
+        params: {
+            page: 1,
+            limit: 10,
+            sortField: 'released',
+            sortOrder: 'desc',
+            filterOptions: JSON.stringify({ "genreId": category.GAME_TRIVIA })
+        }
+    });
 
-await Promise.all([getSliderApp(), getGameAdvances()]);
+    trivias = data.result?.data;
+}
+
+await Promise.all([getGameAdventure(), getGameActions(), getGameArcade(), getGameCasio(), getGameCasual(), getNewGames(), getGameSellings(), getNewApplications()]);
+
+await Promise.all([getSliderApp(), getGameCard(), getGameTrivia()]);
 
 let currentBanner = ref(0);
 const step = -868;
@@ -181,20 +196,10 @@ function handleSlider(num: Number) {
 setInterval(() => handleSlider(1), 5000);
 
 function generateUrl(title: string, id: string) {
-    const regex = /^([^:]+):\s(.+)$/;
-    const match = regex.exec(title);
+    // Thay thế dấu ":" bằng dấu "-"
+    const result = encodeURIComponent(title) + `?itm=${id}`;
 
-    if (match) {
-        // Trích xuất hai phần từ kết quả của regex
-        const part1 = match[1];
-        const part2 = match[2];
-
-        // Thay thế dấu ":" bằng dấu "-"
-        const result = (part1 + "-" + part2).replace(/\s/g, '-') + `?itm=${id}`;
-
-        return result
-    }
-    return '';
+    return result
 }
 </script>
 
@@ -358,10 +363,10 @@ function generateUrl(title: string, id: string) {
         <div class="left">
             <div class="module discover" dt-eid="card"><NuxtLink 
                 class="title more" title="Phát hiện" to="/vn/discover">
-                    <h3 class="name">Ứng Dụng Shopping Phổ biến</h3>
+                    <h3 class="name">Trò chơi Adventures phổ biến</h3>
                 </NuxtLink>
-                <div class="apk-list-1001 no-scrollbar enable-wrap" v-if="shoppings">
-                    <NuxtLink class="apk" :title="shop.title" v-for="shop in shoppings" :to="generateUrl(shop.title, shop.appId)">
+                <div class="apk-list-1001 no-scrollbar enable-wrap" v-if="adventures">
+                    <NuxtLink class="apk" :title="shop.title" v-for="shop in adventures" :to="generateUrl(shop.title, shop.appId)">
                         <div class="img-ratio"><img :src="shop.icon" class="icon lazy loaded" :alt="shop.title" width="102"
                                 height="102"></div>
                         <div class="name double-lines">{{ shop.title }}</div>
@@ -373,8 +378,8 @@ function generateUrl(title: string, id: string) {
                     dt-imp-end-ignore="true" dt-send-beacon="true">
                     <h3 class="name">Trò chơi phổ biến trong 24 giờ trước</h3>
                 </NuxtLink>
-                <div class="apk-list-1002 no-scrollbar" v-if="games">
-                    <NuxtLink class="apk" v-for="game in games" :to="generateUrl(game.title, game.appId)">
+                <div class="apk-list-1002 no-scrollbar" v-if="actions">
+                    <NuxtLink class="apk" v-for="game in actions" :to="generateUrl(game.title, game.appId)">
                         <div class="img-ratio"><img class="icon lazy loaded" :alt="game.title"
                                 :src="game.icon" width="102" height="102"></div>
                         <div class="name double-lines">{{ game.title }}</div>
@@ -387,8 +392,8 @@ function generateUrl(title: string, id: string) {
                     to="/vn/app-24h">
                     <h3 class="name">Ứng dụng phổ biến trong 24 giờ trước</h3>
                 </NuxtLink>
-                <div class="apk-list-1002 no-scrollbar" v-if="populars">
-                    <NuxtLink class="apk" v-for="popular in populars" :to="generateUrl(popular.title, popular.appId)">
+                <div class="apk-list-1002 no-scrollbar" v-if="arcades">
+                    <NuxtLink class="apk" v-for="popular in arcades" :to="generateUrl(popular.title, popular.appId)">
                         <div class="img-ratio"><img class="icon lazy loaded" :alt="popular.title"
                                 :src="popular.icon" width="102" height="102"></div>
                         <div class="name double-lines">{{ popular.title }}</div>
@@ -400,11 +405,11 @@ function generateUrl(title: string, id: string) {
                     href="https://apkpure.com/vn/search?q=popular_article&amp;sat=articles&amp;ao=most&amp;at=home_recommend">
                     <h3 class="name">Các bài báo phổ biến trong 24 giờ qua</h3>
                 </a>
-                <div class="article-list" v-if="populars">
-                    <NuxtLink class="article" :to="generateUrl(popular.title, popular.appId)" v-for="popular in populars" :src="popular.icon">
-                        <img class="article-banner lazy loaded" :src="popular.icon" />
+                <div class="article-list" v-if="arcades">
+                    <NuxtLink class="article" :to="generateUrl(tri.title, tri.appId)" v-for="tri in trivias" :src="tri.icon">
+                        <img class="article-banner lazy loaded" :src="tri.icon" />
                         <div class="text">
-                            <div class="article-title double-lines">{{ popular.title }}</div>
+                            <div class="article-title double-lines">{{ tri.title }}</div>
                             <div class="updated one-line">Mar 17, 2023</div>
                         </div>
                     </NuxtLink>
@@ -416,8 +421,8 @@ function generateUrl(title: string, id: string) {
                     to="/vn/editor-choice">
                     <h3 class="name">Lựa chọn của biên tập viên hàng tuần</h3>
                 </NuxtLink>
-                <div class="apk-list-1003 no-scrollbar" v-if="beauties">
-                    <NuxtLink class="apk" v-for="beauty in beauties" 
+                <div class="apk-list-1003 no-scrollbar" v-if="casios">
+                    <NuxtLink class="apk" v-for="beauty in casios" 
                     :to="generateUrl(beauty.title, beauty.appId)"><img class="banner lazy loaded"
                             :alt="beauty.title"
                             :src="beauty.videoImage"
@@ -440,8 +445,8 @@ function generateUrl(title: string, id: string) {
                     to="/vn/pre-register">
                     <h3 class="name">Ứng dụng hẹn hò mới</h3>
                 </NuxtLink>
-                <div class="apk-list-1004 no-scrollbar" v-if="daties">
-                    <NuxtLink class="apk" v-for="date in daties" :to="generateUrl(date.title, date.appId)"><img
+                <div class="apk-list-1004 no-scrollbar" v-if="casuals">
+                    <NuxtLink class="apk" v-for="date in casuals" :to="generateUrl(date.title, date.appId)"><img
                             class="icon lazy loaded" :alt="date.title"
                             :src="date.icon" width="68" height="68">
                         <div class="text">
@@ -480,8 +485,8 @@ function generateUrl(title: string, id: string) {
                 <NuxtLink class="title more" to="/">
                     <h3 class="name">Trò chơi nổi bật</h3>
                 </NuxtLink>
-                <div class="apk-list-1006 no-scrollbar" v-if="gameAdvances">
-                    <NuxtLink class="apk" v-for="gameAdvance in gameAdvances" :to="generateUrl(gameAdvance.title, gameAdvance.appId)">
+                <div class="apk-list-1006 no-scrollbar" v-if="gameCards">
+                    <NuxtLink class="apk" v-for="gameAdvance in gameCards" :to="generateUrl(gameAdvance.title, gameAdvance.appId)">
                         <div class="img-ratio"><img class="icon lazy loaded" :alt="gameAdvance.title"
                                 :src="gameAdvance.icon" width="68" height="68"></div>
                         <div class="text">
